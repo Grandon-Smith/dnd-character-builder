@@ -21,4 +21,7 @@
 	<router-view> </router-view>
 </template>
 
-<style scoped></style>
+<style scoped>
+p {
+	margin-bottom: .5em;
+}</style>
