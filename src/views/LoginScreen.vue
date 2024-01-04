@@ -1,8 +1,8 @@
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { ref, onMounted } from "vue";
 	import { useRouter, useRoute } from "vue-router";
-	import { onMounted } from "vue";
 	import { useUserDataStore } from "../store";
+
 	const store = useUserDataStore();
 
 	const route = useRoute();

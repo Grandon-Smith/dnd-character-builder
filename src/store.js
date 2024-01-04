@@ -23,8 +23,15 @@ export const useUserDataStore = defineStore("user", {
 						},
 						characterData: {
 							name: "Harlog the hearty",
-							class: "Barbarian",
-							level: 3,
+							classes: [
+								{ class: "Barbarian", subClass: "Zealot", level: 3 },
+								{
+									class: "Ranger",
+									subClass: "Beastmaster",
+									level: 2,
+								},
+							],
+							level: 5,
 							health: 22,
 							armorClass: 15,
 							abilityScores: {
@@ -72,7 +79,13 @@ export const useUserDataStore = defineStore("user", {
 						},
 						characterData: {
 							name: "garthock the mighty",
-							class: "Ranger",
+							classes: [
+								{
+									class: "Ranger",
+									subClass: "Beastmaster",
+									level: 2,
+								},
+							],
 							level: 3,
 							health: 22,
 							armorClass: 15,
