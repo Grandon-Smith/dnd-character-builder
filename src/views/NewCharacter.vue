@@ -21,20 +21,7 @@
 		<section
 			role="region"
 			class="characters-container">
-			<ChooseCharacterCard
-				v-for="character in store.userData.characters"
-				:characterObj="character.characterData" />
-			<p
-				v-if="!store.userData.characters.length"
-				class="no-character-warn">
-				Looks like you don't have a character yet. Lets change that!
-
-				<router-link to="/add-character"
-					><button class="new-char-btn btn-1">
-						Create a new character!
-					</button></router-link
-				>
-			</p>
+			NEW CHARACTER SCREEN
 		</section>
 	</div>
 </template>
@@ -49,22 +36,5 @@
 	.characters-container {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
-		padding: 1rem;
-	}
-
-	.no-character-warn {
-		padding: 1rem;
-	}
-
-	.new-char-btn {
-		margin: 1.5rem auto;
-	}
-
-	@media only screen and (min-width: 600px) {
-		.characters-container {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-		}
 	}
 </style>

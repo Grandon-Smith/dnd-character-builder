@@ -4,9 +4,13 @@ export const useUserDataStore = defineStore("user", {
 	state: () => ({
 		userData: null,
 		fetchingData: false,
+		characterIdx: 0,
 	}),
 	getters: {
-		doubleCount(state) {},
+		charData(state) {
+			return state.userData.characters[state.characterIdx]
+				.characterData;
+		},
 	},
 	actions: {
 		setMockData() {
@@ -32,7 +36,8 @@ export const useUserDataStore = defineStore("user", {
 								},
 							],
 							level: 5,
-							health: 22,
+							currentHealth: 22,
+							maxHealth: 31,
 							armorClass: 15,
 							abilityScores: {
 								strength: 15,

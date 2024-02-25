@@ -1,5 +1,5 @@
 <script setup>
-	import { defineProps, defineEmits, onMounted } from "vue";
+	import { defineEmits, onMounted } from "vue";
 
 	const props = defineProps({
 		textInput: String,
@@ -7,6 +7,7 @@
 		inputType: String,
 		inputId: String,
 		maxLength: Number,
+		placeHolder: String,
 		hasError: Boolean,
 		errorMsg: String,
 	});
@@ -28,12 +29,12 @@
 		:class="{ error: hasError }">
 		<label for="username">{{ labelText }}</label>
 		<input
-			:type="inputType"
 			:id="inputId"
-			:value="textInput"
 			:maxlength="maxLength"
+			:placeholder="placeHolder"
+			:type="inputType"
+			:value="textInput"
 			@input="(e) => handleInputChange(e)" />
-		<!-- <div class="input-error-text-wrapper"> -->
 		<Transition>
 			<p
 				v-if="hasError"
@@ -43,26 +44,25 @@
 			</p>
 		</Transition>
 	</div>
-	<!-- </div> -->
 </template>
 
 <style scoped>
 	.input-wrapper {
-		padding-bottom: 2rem;
+		padding-bottom: 1.25rem;
 		transition: all 0.3s ease;
 		position: relative;
 	}
 
 	label {
 		display: block;
-		margin-bottom: 0.2rem;
-		margin-left: 0.2rem;
+		opacity: 0;
 	}
 
 	input {
-		border: 1px solid #000;
-		border-radius: 2em;
-		padding: 0.75em 1em;
+		border: 1px solid var(--clr-black-1);
+		border-radius: 0.3rem;
+		font-size: 1.1rem;
+		padding: 0.5rem;
 		width: 100%;
 		position: relative;
 	}

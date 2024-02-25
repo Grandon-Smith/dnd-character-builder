@@ -96,99 +96,76 @@
 </script>
 
 <template>
-	<div class="login-screen-bg">
-		<div class="login-screen-container">
-			<h1>Welcome Adventurer</h1>
-			<form @submit.prevent="handleLoginSubmit">
-				<TextInput
-					:errorMsg="emailInput.errorMsg"
-					:hasError="emailInput.hasError"
-					inputType="text"
-					inputId="email"
-					labelText="Email"
-					:maxLength="75"
-					:textInput="emailInput.textVal"
-					v-on:emitTextInput="(e) => setTextInputValue('email', e)" />
-				<TextInput
-					:textInput="passwordInput.textVal"
-					labelText="Password"
-					inputType="password"
-					inputId="password"
-					:maxLength="20"
-					:hasError="passwordInput.hasError"
-					:errorMsg="passwordInput.errorMsg"
-					v-on:emitTextInput="(e) => setTextInputValue('pass', e)" />
+	<div class="login-screen-container">
+		<h1>Welcome Adventurer</h1>
+		<form @submit.prevent="handleLoginSubmit">
+			<TextInput
+				:errorMsg="emailInput.errorMsg"
+				:hasError="emailInput.hasError"
+				inputType="text"
+				inputId="email"
+				labelText="Email"
+				:maxLength="75"
+				placeHolder="Example@email.com"
+				:textInput="emailInput.textVal"
+				v-on:emitTextInput="(e) => setTextInputValue('email', e)" />
+			<TextInput
+				:textInput="passwordInput.textVal"
+				labelText="Password"
+				inputType="password"
+				inputId="password"
+				:maxLength="20"
+				placeHolder="Password"
+				:hasError="passwordInput.hasError"
+				:errorMsg="passwordInput.errorMsg"
+				v-on:emitTextInput="(e) => setTextInputValue('pass', e)" />
 
-				<button
-					class="login-submit-btn"
-					type="submit">
-					Login
-				</button>
-				<p class="forgot-pass">
-					<router-link to="/">Forgot password?</router-link>
-				</p>
-				<p>
-					Don't have an account?
-					<router-link to="/">Sign up</router-link>
-				</p>
-			</form>
-		</div>
+			<button
+				class="login-submit-btn btn-1"
+				type="submit">
+				Log in
+			</button>
+			<p class="forgot-pass">
+				<router-link to="/">Forgot password?</router-link>
+			</p>
+			<p>
+				Don't have an account?
+				<router-link to="/">Sign up</router-link>
+			</p>
+		</form>
 	</div>
 </template>
 
 <style scoped>
-	.login-screen-bg {
-		height: 100%;
-		background: linear-gradient(
-			150deg,
-			var(--clr-red-1),
-			var(--clr-red-1) 35%,
-			var(--clr-red-2) 35%,
-			var(--clr-red-2) 40%,
-			var(--clr-red-3) 40%,
-			var(--clr-red-3) 45%,
-			#ffffff 45%,
-			#ffffff 65%,
-			var(--clr-grey-3) 65%,
-			var(--clr-grey-3) 70%,
-			var(--clr-grey-2) 70%,
-			var(--clr-grey-2) 75%,
-			var(--clr-font-main) 75%,
-			var(--clr-font-main) 100%
-		);
-	}
-
 	.login-screen-container {
+		background-image: url("../assets/login-bg.jpg");
+		background-size: cover;
+		height: 100%;
 		padding: 20% 0 0 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		overflow: auto;
 	}
 
 	.login-screen-container h1 {
-		color: #ffffff;
-		font-weight: 400;
+		font-weight: 800;
 		text-align: center;
 	}
 
 	form {
-		background-color: rgb(203, 203, 203);
-		border-radius: 2em;
 		width: 100%;
 		max-width: 25em;
-		padding: 1em 1.5em;
-		margin: 3em 0;
+		padding: 0 1.5em;
+		margin: 2em 0;
 		display: flex;
 		flex-direction: column;
 	}
 
 	.login-submit-btn {
-		border: 1px solid #000;
-		border-radius: 2em;
-		padding: 0.75em 1em;
-		width: 6em;
-		display: block;
-		margin: 0 auto 2rem auto;
+		border-radius: 0.3rem;
+		width: 8em;
+		margin: 3rem auto 0.25rem auto;
 	}
 
 	.forgot-pass {
@@ -200,7 +177,7 @@
 			padding: 20% 1.5rem 0 1.5rem;
 		}
 		form {
-			padding: 1.5rem 2rem;
+			padding: 0 2rem;
 		}
 	}
 </style>
