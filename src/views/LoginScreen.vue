@@ -1,39 +1,97 @@
-<script setup lang="ts">
-	import { ref, onMounted } from "vue";
-	import { useRouter, useRoute } from "vue-router";
+<script setup>
+	import TextInput from "../components/TextInput.vue";
+	import { ref } from "vue";
 	import { useUserDataStore } from "../store";
+	import { useRouter } from "vue-router";
 
 	const store = useUserDataStore();
-
-	const route = useRoute();
 	const router = useRouter();
 
-	defineProps({
-		msg: String,
+	const emailInput = ref({
+		textVal: "",
+		hasError: false,
+		errorMsg: "",
+	});
+	const passwordInput = ref({
+		textVal: "",
+		hasError: false,
+		errorMsg: "",
 	});
 
-	const usernameInput = ref("");
-	const passwordInput = ref("");
+	function checkEmail() {
+		let isEmailValid = false;
+		if (!emailInput.value.textVal.length) {
+			emailInput.value.hasError = true;
+			emailInput.value.errorMsg = "Please enter an email address";
+			return;
+		}
+
+		isEmailValid = validateEmail(emailInput.value.textVal);
+
+		if (!isEmailValid) {
+			emailInput.value.hasError = true;
+			emailInput.value.errorMsg =
+				"Please enter a valid email address";
+			return;
+		}
+	}
+
+	function checkPassword() {
+		if (!passwordInput.value.textVal.length) {
+			passwordInput.value.hasError = true;
+			passwordInput.value.errorMsg = "Please enter a password";
+			return;
+		}
+	}
 
 	function handleLoginSubmit() {
 		console.log("handle login");
-		console.log("asfsd", route, router);
+		checkEmail();
+		checkPassword();
+
+		if (emailInput.value.hasError || passwordInput.value.hasError) {
+			return;
+		}
 
 		store.fetchingData = true;
 		setTimeout(() => {
-			router.push("/choose-character");
 			store.setMockData();
+			router.push("/choose-character");
 			store.fetchingData = false;
 		}, 1000);
 
-		// if (!usernameInput.value.length || !passwordInput.value.length) {
-		// 	return;
-		// }
-
 		// send data to back end
-		// back end validates username matches with password given.
+		// back end validates email matches with password given.
 		// if match, send success status and redirect to user account character sheet.
 		// if fail, send failure status with specific failure type.
+	}
+
+	function setTextInputValue(inputField, e) {
+		// event listner function for input components
+		if (inputField === "email") {
+			// on input in email field, set state value, and end error states
+			emailInput.value.textVal = e.target.value;
+			emailInput.value.hasError = false;
+			emailInput.value.errorMsg = "";
+		}
+
+		if (inputField === "pass") {
+			// on input in password field, set state value, and end error states
+			passwordInput.value.textVal = e.target.value;
+			passwordInput.value.hasError = false;
+			passwordInput.value.errorMsg = "";
+		}
+	}
+
+	function validateEmail(email) {
+		var regexEmail =
+			/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
+
+		if (!email.match(regexEmail)) {
+			return false;
+		}
+
+		return true;
 	}
 </script>
 
@@ -42,27 +100,33 @@
 		<div class="login-screen-container">
 			<h1>Welcome Adventurer</h1>
 			<form @submit.prevent="handleLoginSubmit">
-				<div class="login-form-section">
-					<label for="username">Username</label>
-					<input
-						type="text"
-						id="username"
-						v-model="usernameInput" />
-				</div>
-				<div class="login-form-section">
-					<label for="password">Password</label>
-					<input
-						type="password"
-						id="password"
-						v-model="passwordInput" />
-				</div>
+				<TextInput
+					:errorMsg="emailInput.errorMsg"
+					:hasError="emailInput.hasError"
+					inputType="text"
+					inputId="email"
+					labelText="Email"
+					:maxLength="75"
+					:textInput="emailInput.textVal"
+					v-on:emitTextInput="(e) => setTextInputValue('email', e)" />
+				<TextInput
+					:textInput="passwordInput.textVal"
+					labelText="Password"
+					inputType="password"
+					inputId="password"
+					:maxLength="20"
+					:hasError="passwordInput.hasError"
+					:errorMsg="passwordInput.errorMsg"
+					v-on:emitTextInput="(e) => setTextInputValue('pass', e)" />
 
 				<button
 					class="login-submit-btn"
 					type="submit">
-					login
+					Login
 				</button>
-				<p><router-link to="/">Forgot password?</router-link></p>
+				<p class="forgot-pass">
+					<router-link to="/">Forgot password?</router-link>
+				</p>
 				<p>
 					Don't have an account?
 					<router-link to="/">Sign up</router-link>
@@ -73,12 +137,6 @@
 </template>
 
 <style scoped>
-	label {
-		display: block;
-		margin-bottom: 0.35em;
-		padding-left: 0.25em;
-	}
-
 	.login-screen-bg {
 		height: 100%;
 		background: linear-gradient(
@@ -101,7 +159,7 @@
 	}
 
 	.login-screen-container {
-		padding: 20% 1em 0 1em;
+		padding: 20% 0 0 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -110,6 +168,7 @@
 	.login-screen-container h1 {
 		color: #ffffff;
 		font-weight: 400;
+		text-align: center;
 	}
 
 	form {
@@ -117,20 +176,10 @@
 		border-radius: 2em;
 		width: 100%;
 		max-width: 25em;
-		padding: 2em;
-		margin: 5em 0;
+		padding: 1em 1.5em;
+		margin: 3em 0;
 		display: flex;
 		flex-direction: column;
-	}
-
-	.login-form-section {
-		margin-bottom: 2em;
-	}
-	.login-form-section input {
-		border: 1px solid #000;
-		border-radius: 2em;
-		padding: 0.75em 1em;
-		width: 100%;
 	}
 
 	.login-submit-btn {
@@ -139,13 +188,19 @@
 		padding: 0.75em 1em;
 		width: 6em;
 		display: block;
-		margin: 0 auto;
+		margin: 0 auto 2rem auto;
 	}
 
-	@media only screen and (min-width: 600px) {
+	.forgot-pass {
+		margin-bottom: 1rem;
+	}
+
+	@media only screen and (min-width: 350px) {
+		.login-screen-container {
+			padding: 20% 1.5rem 0 1.5rem;
+		}
 		form {
-			display: flex;
-			flex-direction: column;
+			padding: 1.5rem 2rem;
 		}
 	}
 </style>

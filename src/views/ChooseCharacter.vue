@@ -1,9 +1,9 @@
 <script setup>
+	import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
+	import NavHeader from "../components/NavHeader.vue";
 	import { ref } from "vue";
 	import { useUserDataStore } from "../store";
 	import { onMounted } from "vue";
-	import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
-	import NavHeader from "../components/NavHeader.vue";
 
 	const store = useUserDataStore();
 	onMounted(() => {

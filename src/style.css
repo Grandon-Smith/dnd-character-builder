@@ -24,6 +24,8 @@
 	--clr-red-3: #d40023;
 	--clr-grey-2: #383838;
 	--clr-grey-3: #575757;
+	--clr-error-red: #ff193f;
+	/* --clr-error-red: #af001e; */
 }
 
 body {
@@ -36,6 +38,7 @@ body {
 #app {
 	height: 100%;
 	position: relative;
+	min-width: 275px;
 	font-size: 1rem;
 }
 
