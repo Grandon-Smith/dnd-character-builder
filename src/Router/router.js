@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
-import LoginScreen from "../views/LoginScreen.vue";
+import LoginAndNewUser from "../views/LoginAndNewUser.vue";
 import ChooseCharacter from "../views/ChooseCharacter.vue";
 import NewCharacter from "../views/NewCharacter.vue";
 import CharacterSheet from "../views/CharacterSheet.vue";
@@ -9,7 +9,12 @@ const routes = [
 	{
 		path: "/login",
 		name: "Login",
-		component: LoginScreen,
+		component: LoginAndNewUser,
+	},
+	{
+		path: "/create-account",
+		name: "Create Account",
+		component: LoginAndNewUser,
 	},
 	{
 		path: "/add-character",

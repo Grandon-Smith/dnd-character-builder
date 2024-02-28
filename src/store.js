@@ -5,6 +5,7 @@ export const useUserDataStore = defineStore("user", {
 		userData: null,
 		fetchingData: false,
 		characterIdx: 0,
+		appKey: 0,
 	}),
 	getters: {
 		charData(state) {
@@ -13,6 +14,10 @@ export const useUserDataStore = defineStore("user", {
 		},
 	},
 	actions: {
+		incrementAppKey() {
+			console.log("ashfdkj");
+			++this.appKey;
+		},
 		setMockData() {
 			this.userData = {
 				name: "Dungeon Daddy",

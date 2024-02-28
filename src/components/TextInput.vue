@@ -75,7 +75,7 @@
 	}
 
 	.input-wrapper.error {
-		padding-bottom: 3.5rem;
+		padding-bottom: 2.5rem;
 	}
 
 	.input-wrapper.error input {
