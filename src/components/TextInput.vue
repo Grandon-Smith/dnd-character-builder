@@ -1,5 +1,5 @@
 <script setup>
-	import { defineEmits, onMounted } from "vue";
+	import { defineEmits } from "vue";
 
 	const props = defineProps({
 		textInput: String,
@@ -13,10 +13,6 @@
 	});
 
 	const emit = defineEmits(["emitTextInput"]);
-
-	onMounted(() => {
-		console.log("text Input mount");
-	});
 
 	function handleInputChange(e) {
 		emit("emitTextInput", e);

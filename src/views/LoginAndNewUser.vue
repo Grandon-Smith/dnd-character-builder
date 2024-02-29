@@ -3,9 +3,10 @@
 	import { ref } from "vue";
 	import { validateEmail, encodeText } from "../utils";
 	import { useUserDataStore } from "../store";
-	import { useRoute } from "vue-router";
+	import { useRoute, useRouter } from "vue-router";
 
 	const route = useRoute();
+	const router = useRouter();
 	const store = useUserDataStore();
 
 	const isCreateAcctPage = ref(route.path === "/create-account");
@@ -43,7 +44,6 @@
 		}
 	}
 	function checkName() {
-		console.log("checking!");
 		if (usernameInput.value.textVal.length < 3) {
 			usernameInput.value.hasError = true;
 			if (!usernameInput.value.textVal.length) {
@@ -61,8 +61,6 @@
 		}
 	}
 	function handleFormSubmit() {
-		console.log("submitting");
-		// store.fetchingData = true;
 		if (isCreateAcctPage) {
 			checkName();
 		}
@@ -88,33 +86,46 @@
 			headers: { "Content-Type": "application/json" },
 			body: BODY,
 		};
-		console.log("sadfds", OPTIONS);
 
-		// setTimeout(() => {
-		// 	store.setMockData();
-		// 	router.push("/choose-character");
-		// 	store.fetchingData = false;
-		// }, 1000);
+		store.fetchingData = true;
 
-		if (isCreateAcctPage) {
+		if (isCreateAcctPage.value) {
 			handleMakeNewUser(OPTIONS);
 		} else {
 			handleLogin(OPTIONS);
 		}
 	}
 	async function handleLogin(OPTIONS) {
-		await fetch("http://localhost:3000/api/auth", OPTIONS)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-			});
+		await fetch("http://localhost:3000/api/auth/login", OPTIONS)
+			.then((res) => res.json())
+			.then((res) => {
+				console.log("HERE", res);
+				setTimeout(() => {
+					if (res.ok && res.status === 200) {
+						router.push("/choose-character");
+					} else {
+						store.setErrorMsg(res.errorMsg);
+					}
+					console.log("HERE2");
+					store.fetchingData = false;
+				}, 1000);
+			})
+			.catch((err) => console.warn(err));
 	}
 	async function handleMakeNewUser(OPTIONS) {
-		await fetch("http://localhost:3000/api/auth", OPTIONS)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-			});
+		await fetch("http://localhost:3000/api/auth/newUser", OPTIONS)
+			.then((res) => res.json())
+			.then((res) => {
+				setTimeout(() => {
+					if (res.ok && res.status === 201) {
+						router.push("/choose-character");
+					} else {
+						store.setErrorMsg(res.errorMsg);
+					}
+					store.fetchingData = false;
+				}, 1000);
+			})
+			.catch((err) => console.warn(err));
 	}
 	function setTextInputValue(inputField, e) {
 		// event listner function for input components
@@ -168,8 +179,13 @@
 				v-on:emitTextInput="
 					(e) => setTextInputValue('passwordInput', e)
 				" />
+			<p
+				v-if="store.errorMsg.length"
+				class="">
+				{{ store.errorMsg }}
+			</p>
 			<button
-				:disabled="store.fetchingData === true"
+				:disabled="store.isFetching === true"
 				class="login-submit-btn btn-1"
 				type="submit">
 				{{ isCreateAcctPage ? "Create Account" : "Log in" }}

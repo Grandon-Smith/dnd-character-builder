@@ -101,6 +101,11 @@ button {
 .btn-1:focus {
 	background-color: var(--clr-black-2);
 	color: #fff;
+	transform: scale(1.05);
+}
+.btn-1:disabled {
+	cursor: initial;
+	background-color: #7e7e7e;
 }
 
 @media only screen and (min-width: 500px) {

@@ -6,17 +6,25 @@ export const useUserDataStore = defineStore("user", {
 		fetchingData: false,
 		characterIdx: 0,
 		appKey: 0,
+		errorMsg: "",
 	}),
 	getters: {
 		charData(state) {
 			return state.userData.characters[state.characterIdx]
 				.characterData;
 		},
+
+		isFetching(state) {
+			return state.fetchingData;
+		},
 	},
 	actions: {
 		incrementAppKey() {
 			console.log("ashfdkj");
 			++this.appKey;
+		},
+		setErrorMsg(msg) {
+			this.errorMsg = msg;
 		},
 		setMockData() {
 			this.userData = {
