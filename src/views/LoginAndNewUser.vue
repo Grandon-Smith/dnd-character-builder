@@ -3,10 +3,10 @@
 	import { ref } from "vue";
 	import { validateEmail, encodeText } from "../utils";
 	import { useUserDataStore } from "../store";
-	import { useRoute, useRouter } from "vue-router";
+	import { useRoute } from "vue-router";
+	import { authServices } from "../services/services.auth";
 
 	const route = useRoute();
-	const router = useRouter();
 	const store = useUserDataStore();
 
 	const isCreateAcctPage = ref(route.path === "/create-account");
@@ -90,42 +90,10 @@
 		store.fetchingData = true;
 
 		if (isCreateAcctPage.value) {
-			handleMakeNewUser(OPTIONS);
+			authServices.handleMakeNewUser(OPTIONS);
 		} else {
-			handleLogin(OPTIONS);
+			authServices.handleLogin(OPTIONS);
 		}
-	}
-	async function handleLogin(OPTIONS) {
-		await fetch("http://localhost:3000/api/auth/login", OPTIONS)
-			.then((res) => res.json())
-			.then((res) => {
-				console.log("HERE", res);
-				setTimeout(() => {
-					if (res.ok && res.status === 200) {
-						router.push("/choose-character");
-					} else {
-						store.setErrorMsg(res.errorMsg);
-					}
-					console.log("HERE2");
-					store.fetchingData = false;
-				}, 1000);
-			})
-			.catch((err) => console.warn(err));
-	}
-	async function handleMakeNewUser(OPTIONS) {
-		await fetch("http://localhost:3000/api/auth/newUser", OPTIONS)
-			.then((res) => res.json())
-			.then((res) => {
-				setTimeout(() => {
-					if (res.ok && res.status === 201) {
-						router.push("/choose-character");
-					} else {
-						store.setErrorMsg(res.errorMsg);
-					}
-					store.fetchingData = false;
-				}, 1000);
-			})
-			.catch((err) => console.warn(err));
 	}
 	function setTextInputValue(inputField, e) {
 		// event listner function for input components

@@ -30,12 +30,8 @@
 	const showFloatNav = ref(false);
 
 	function toggleFloatingNav() {
-		showFloatNav.value = !showFloatNav.value;
+		store.toggleFloatNav();
 	}
-
-	onMounted(() => {
-		console.log("navbar mount", store);
-	});
 </script>
 
 <template>
@@ -52,7 +48,7 @@
 
 			<ul
 				class="floating-nav"
-				v-if="showFloatNav">
+				v-if="store.showFloatingNav">
 				<li v-for="link in floatingNavOptions">
 					<router-link :to="link.path">{{ link.text }}</router-link>
 				</li>
