@@ -23,14 +23,14 @@
 		},
 		{
 			text: "Log Out",
-			path: "/log-out",
+			path: "/",
 		},
 	];
 
 	const showFloatNav = ref(false);
 
 	function toggleFloatingNav() {
-		store.toggleFloatNav();
+		showFloatNav.value = !showFloatNav.value;
 	}
 </script>
 
@@ -38,8 +38,8 @@
 	<nav>
 		<div class="float-nav-container">
 			<button
-				class="nav-btn"
 				aria-label="navigation menu"
+				class="nav-btn"
 				@click="toggleFloatingNav">
 				<div class="nav-btn-line"></div>
 				<div class="nav-btn-line"></div>
@@ -48,8 +48,10 @@
 
 			<ul
 				class="floating-nav"
-				v-if="store.showFloatingNav">
-				<li v-for="link in floatingNavOptions">
+				v-if="showFloatNav">
+				<li
+					v-for="link in floatingNavOptions"
+					:key="link.path">
 					<router-link :to="link.path">{{ link.text }}</router-link>
 				</li>
 			</ul>
@@ -112,12 +114,14 @@
 		left: 0;
 		z-index: 1;
 	}
+
 	.floating-nav li a {
 		display: block;
 		white-space: nowrap;
 		border-bottom: 1px solid var(--clr-grey-1);
 		padding: 0.25rem 1rem;
 	}
+
 	.floating-nav li a:hover,
 	.floating-nav li a:focus {
 		background-color: #fce4f1;

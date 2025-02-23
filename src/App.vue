@@ -9,7 +9,6 @@
 	const router = useRouter();
 
 	onMounted(() => {
-		console.log("App mounted");
 		store.setMockData();
 		//remember to check out the DND API for data.
 	});

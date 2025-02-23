@@ -43,6 +43,7 @@
 			return;
 		}
 	}
+
 	function checkName() {
 		if (usernameInput.value.textVal.length < 3) {
 			usernameInput.value.hasError = true;
@@ -50,9 +51,9 @@
 				usernameInput.value.errorMsg = "Please enter a user name";
 			}
 			usernameInput.value.errorMsg = "User name must be longer";
-			// return;
 		}
 	}
+
 	function checkPassword() {
 		if (!passwordInput.value.textVal.length) {
 			passwordInput.value.hasError = true;
@@ -60,6 +61,7 @@
 			return;
 		}
 	}
+
 	function handleFormSubmit() {
 		if (isCreateAcctPage) {
 			checkName();
@@ -83,18 +85,23 @@
 
 		const OPTIONS = {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
+			headers: {
+				"Content-Type": "application/json",
+			},
 			body: BODY,
 		};
 
 		store.fetchingData = true;
 
 		if (isCreateAcctPage.value) {
+			// new user submit
 			authServices.handleMakeNewUser(OPTIONS);
 		} else {
+			// login submit
 			authServices.handleLogin(OPTIONS);
 		}
 	}
+
 	function setTextInputValue(inputField, e) {
 		// event listner function for input components
 		// func uses 'this' keyword to bind to the text input
@@ -108,7 +115,13 @@
 
 <template>
 	<div class="login-screen-container">
-		<h1>Welcome Adventurer</h1>
+		<h1>
+			{{
+				isCreateAcctPage
+					? "Welcome New Adventurer!"
+					: "Welcome Back Adventurer"
+			}}
+		</h1>
 		<form @submit.prevent="handleFormSubmit">
 			<TextInput
 				v-if="isCreateAcctPage"
@@ -147,9 +160,7 @@
 				v-on:emitTextInput="
 					(e) => setTextInputValue('passwordInput', e)
 				" />
-			<p
-				v-if="store.errorMsg.length"
-				class="">
+			<p v-if="store.errorMsg.length">
 				{{ store.errorMsg }}
 			</p>
 			<button

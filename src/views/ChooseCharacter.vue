@@ -6,7 +6,9 @@
 	import { onMounted } from "vue";
 
 	const store = useUserDataStore();
+
 	onMounted(() => {
+		store.setMockData();
 		console.log("choose char mount", store);
 	});
 </script>
@@ -22,8 +24,9 @@
 			role="region"
 			class="characters-container">
 			<ChooseCharacterCard
-				v-for="character in store.userData.characters"
-				:characterObj="character.characterData" />
+				v-for="(character, i) in store.userData.characters"
+				:characterObj="character.characterData"
+				:key="i" />
 			<p
 				v-if="!store.userData.characters.length"
 				class="no-character-warn">

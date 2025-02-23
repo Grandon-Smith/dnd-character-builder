@@ -7,7 +7,6 @@ export const useUserDataStore = defineStore("user", {
 		characterIdx: 0,
 		appKey: 0,
 		errorMsg: "",
-		showFloatingNav: false,
 	}),
 	getters: {
 		charData(state) {
@@ -21,7 +20,6 @@ export const useUserDataStore = defineStore("user", {
 	},
 	actions: {
 		incrementAppKey() {
-			console.log("ashfdkj");
 			++this.appKey;
 		},
 		setErrorMsg(msg) {
@@ -145,10 +143,6 @@ export const useUserDataStore = defineStore("user", {
 					},
 				],
 			};
-		},
-
-		toggleFloatNav() {
-			this.showFloatingNav = !this.showFloatingNav;
 		},
 	},
 });
