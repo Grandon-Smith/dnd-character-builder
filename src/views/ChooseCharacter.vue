@@ -16,6 +16,8 @@
 <template>
 	<div class="choose-character-container">
 		<NavHeader :headerText="'Choose Character'" />
+		<button @click="store.logout()">LOGOUT</button>
+		<p><button @click="store.fetchProfile()">TESTING</button></p>
 		<p>
 			<router-link to="/login">go login</router-link>
 		</p>

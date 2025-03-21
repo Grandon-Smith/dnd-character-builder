@@ -1,13 +1,14 @@
 <script setup>
 	const props = defineProps({
-		textInput: String,
-		labelText: String,
-		inputType: String,
-		inputId: String,
-		maxLength: Number,
-		placeHolder: String,
-		hasError: Boolean,
 		errorMsg: String,
+		hasError: { type: Boolean, required: false, default: false },
+		inputId: String,
+		inputType: { type: String, required: false, default: "text" },
+		labelText: { type: String, required: true },
+		maxLength: { type: Number, required: false, default: 30 },
+		placeHolder: { type: String, required: false },
+		showLabel: { type: Boolean, required: false, default: true },
+		textInput: { type: String, required: true },
 	});
 
 	const emit = defineEmits(["emitTextInput"]);
@@ -21,7 +22,11 @@
 	<div
 		class="input-wrapper"
 		:class="{ error: hasError }">
-		<label for="username">{{ labelText }}</label>
+		<label
+			for="username"
+			:class="{ hidden: !showLabel }"
+			>{{ labelText }}</label
+		>
 		<input
 			:id="inputId"
 			:maxlength="maxLength"
@@ -49,7 +54,6 @@
 
 	label {
 		display: block;
-		opacity: 0;
 	}
 
 	input {
@@ -59,6 +63,10 @@
 		padding: 0.5rem;
 		width: 100%;
 		position: relative;
+	}
+
+	label.hidden {
+		opacity: 0;
 	}
 
 	.error-text {

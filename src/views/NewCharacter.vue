@@ -1,28 +1,43 @@
 <script setup>
 	import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
 	import NavHeader from "../components/NavHeader.vue";
+	import TextInput from "../components/TextInput.vue";
 	import { ref } from "vue";
 	import { useUserDataStore } from "../store";
 	import { onMounted } from "vue";
 
 	const store = useUserDataStore();
+	const characterName = ref({
+		textVal: "",
+		label: "Character Name",
+		hasError: false,
+		inputType: "text",
+	});
+
+	const characterStats = ref([{}]);
+
 	onMounted(() => {
-		console.log("choose char mount", store);
+		console.log("new char mount");
 	});
 </script>
 
 <template>
 	<div class="choose-character-container">
 		<NavHeader :headerText="'Choose Character'" />
-		<p>
-			<router-link to="/login">go login</router-link>
-		</p>
-		<router-link to="/">go home</router-link>
-		<section
+		<main
 			role="region"
 			class="characters-container">
-			NEW CHARACTER SCREEN
-		</section>
+			<TextInput
+				:errorMsg="characterName.errorMsg"
+				:hasError="characterName.hasError"
+				inputId="username"
+				labelText="Character Name"
+				placeHolder="Garthock Stonefist"
+				:textInput="characterName.textVal"
+				v-on:emitTextInput="
+					(e) => (characterName.textVal = e.target.value)
+				" />
+		</main>
 	</div>
 </template>
 
@@ -33,8 +48,7 @@
 		height: 100%;
 	}
 
-	.characters-container {
-		display: grid;
-		grid-template-columns: 1fr;
+	main {
+		padding: 1rem;
 	}
 </style>

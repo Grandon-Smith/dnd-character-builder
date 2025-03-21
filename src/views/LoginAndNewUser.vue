@@ -74,7 +74,8 @@
 			return;
 		}
 
-		const HASHPASS = encodeText(passwordInput.value.textVal);
+		// const HASHPASS = encodeText(passwordInput.value.textVal);
+		const HASHPASS = passwordInput.value.textVal;
 		const BODY = JSON.stringify({
 			email: emailInput.value.textVal,
 			password: HASHPASS,
@@ -98,7 +99,8 @@
 			authServices.handleMakeNewUser(OPTIONS);
 		} else {
 			// login submit
-			authServices.handleLogin(OPTIONS);
+			// authServices.handleLogin(OPTIONS);
+			store.login(emailInput.value.textVal, HASHPASS);
 		}
 	}
 
@@ -127,10 +129,9 @@
 				v-if="isCreateAcctPage"
 				:errorMsg="usernameInput.errorMsg"
 				:hasError="usernameInput.hasError"
-				inputType="text"
 				inputId="username"
 				labelText="username"
-				:maxLength="30"
+				:showLabel="false"
 				placeHolder="Name"
 				:textInput="usernameInput.textVal"
 				v-on:emitTextInput="
@@ -139,9 +140,9 @@
 			<TextInput
 				:errorMsg="emailInput.errorMsg"
 				:hasError="emailInput.hasError"
-				inputType="text"
 				inputId="email"
 				labelText="Email"
+				:showLabel="false"
 				:maxLength="75"
 				placeHolder="Example@email.com"
 				:textInput="emailInput.textVal"
@@ -151,6 +152,7 @@
 			<TextInput
 				:textInput="passwordInput.textVal"
 				labelText="Password"
+				:showLabel="false"
 				inputType="password"
 				inputId="password"
 				:maxLength="20"

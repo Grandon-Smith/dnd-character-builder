@@ -5,6 +5,12 @@ import NewCharacter from "../views/NewCharacter.vue";
 import CharacterSheet from "../views/CharacterSheet.vue";
 import Home from "../views/Home.vue";
 
+const isAuthenticated = () => {
+	// You can replace this logic with actual authentication logic
+	// return !!localStorage.getItem('authToken');
+	return true;
+};
+
 const routes = [
 	{
 		path: "/login",
@@ -30,6 +36,13 @@ const routes = [
 		path: "/choose-character",
 		name: "Choose Character",
 		component: ChooseCharacter,
+		beforeEnter: (to, from, next) => {
+			if (isAuthenticated()) {
+				next(); // Proceed to the profile page
+			} else {
+				next({ name: "Login" }); // Redirect to the login page if not authenticated
+			}
+		},
 	},
 	{
 		path: "/",
