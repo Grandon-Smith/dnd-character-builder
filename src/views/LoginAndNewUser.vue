@@ -4,7 +4,7 @@
 	import { validateEmail, encodeText } from "../utils";
 	import { useUserDataStore } from "../store";
 	import { useRoute } from "vue-router";
-	import { authServices } from "../services/services.auth";
+	import { authServices } from "../services/auth";
 
 	const route = useRoute();
 	const store = useUserDataStore();
@@ -62,7 +62,9 @@
 		}
 	}
 
-	function handleFormSubmit() {
+	async function handleFormSubmit() {
+		store.fetchingData = true;
+
 		if (isCreateAcctPage) {
 			checkName();
 		}
@@ -74,8 +76,8 @@
 			return;
 		}
 
-		// const HASHPASS = encodeText(passwordInput.value.textVal);
-		const HASHPASS = passwordInput.value.textVal;
+		const HASHPASS = encodeText(passwordInput.value.textVal);
+		console.log(HASHPASS);
 		const BODY = JSON.stringify({
 			email: emailInput.value.textVal,
 			password: HASHPASS,
@@ -92,15 +94,12 @@
 			body: BODY,
 		};
 
-		store.fetchingData = true;
-
 		if (isCreateAcctPage.value) {
 			// new user submit
 			authServices.handleMakeNewUser(OPTIONS);
 		} else {
 			// login submit
-			// authServices.handleLogin(OPTIONS);
-			store.login(emailInput.value.textVal, HASHPASS);
+			await authServices.handleLogin(BODY);
 		}
 	}
 
@@ -165,8 +164,8 @@
 			<p v-if="store.errorMsg.length">
 				{{ store.errorMsg }}
 			</p>
+			<!-- :disabled="store.isFetching === true" -->
 			<button
-				:disabled="store.isFetching === true"
 				class="login-submit-btn btn-1"
 				type="submit">
 				{{ isCreateAcctPage ? "Create Account" : "Log in" }}
