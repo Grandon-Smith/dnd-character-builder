@@ -7,6 +7,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  font-size: 18px;
+}
+
 body {
   font-family: "Alegreya Sans", sans-serif;
 }
@@ -128,4 +132,30 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+:root {
+	--clr-black-1: #281b1a;
+	--clr-black-2: #211711;
+	--clr-grey-1: #f9cde6;
+	--clr-red-1: #cd1c10;
+	--clr-error-red: #ff193f;
+	/* --clr-error-red: #af001e; */
+
+	--clr-font-main: var(--clr-black-1);
+	--clr-font-accent: var(--clr-red-1);
+}
+
+body {
+	background-color: rgb(255, 255, 255);
+	height: 100vh;
+	width: 100%;
+}
+
+#app {
+	color: var(--clr-font-main);
+	font-family: "Alegreya Sans", sans-serif;
+	height: 100%;
+	position: relative;
+	min-width: 275px;
 }

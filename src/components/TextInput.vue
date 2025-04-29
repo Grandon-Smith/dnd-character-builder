@@ -1,102 +1,83 @@
 <script setup>
-	const props = defineProps({
-		errorMsg: String,
-		hasError: { type: Boolean, required: false, default: false },
-		inputId: String,
-		inputType: { type: String, required: false, default: "text" },
-		labelText: { type: String, required: true },
-		maxLength: { type: Number, required: false, default: 30 },
-		placeHolder: { type: String, required: false },
-		showLabel: { type: Boolean, required: false, default: true },
-		textInput: { type: String, required: true },
-	});
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
-	const emit = defineEmits(["emitTextInput"]);
+const props = defineProps({
+  errorMsg: String,
+  hasError: { type: Boolean, required: false, default: false },
+  inputId: String,
+  inputType: { type: String, required: false, default: "text" },
+  labelText: { type: String, required: true },
+  maxLength: { type: Number, required: false, default: 30 },
+  placeHolder: { type: String, required: false },
+  showLabel: { type: Boolean, required: false, default: true },
+  textInput: { type: String, required: true },
+});
 
-	function handleInputChange(e) {
-		emit("emitTextInput", e);
-	}
+const emit = defineEmits(["emitTextInput"]);
+
+function handleInputChange(e) {
+  emit("emitTextInput", e);
+}
 </script>
 
 <template>
-	<div
-		class="input-wrapper"
-		:class="{ error: hasError }">
-		<label
-			for="username"
-			:class="{ hidden: !showLabel }"
-			>{{ labelText }}</label
-		>
-		<input
-			:id="inputId"
-			:maxlength="maxLength"
-			:placeholder="placeHolder"
-			:type="inputType"
-			:value="textInput"
-			@input="(e) => handleInputChange(e)" />
-		<Transition>
-			<p
-				v-if="hasError"
-				class="error-text"
-				:aria-hidden="!hasError">
-				{{ errorMsg }}
-			</p>
-		</Transition>
-	</div>
+  <div class="input-wrapper" :class="{ error: hasError }">
+    <Label for="username" :class="{ hidden: !showLabel }" class="text-xl">{{
+      labelText
+    }}</Label>
+    <Input
+      class="text-xl"
+      :id="inputId"
+      :maxlength="maxLength"
+      :placeholder="placeHolder"
+      :type="inputType"
+      :value="textInput"
+      @input="(e) => handleInputChange(e)"
+    />
+    <Transition>
+      <p v-if="hasError" class="error-text" :aria-hidden="!hasError">
+        {{ errorMsg }}
+      </p>
+    </Transition>
+  </div>
 </template>
 
 <style scoped>
-	.input-wrapper {
-		padding-bottom: 1.25rem;
-		transition: all 0.3s ease;
-		position: relative;
-	}
+.input-wrapper {
+  padding-bottom: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
 
-	label {
-		display: block;
-	}
+.error-text {
+  color: var(--clr-error-red);
+  position: absolute;
+  top: 4.25rem;
+  left: 1em;
+}
 
-	input {
-		border: 1px solid var(--clr-black-1);
-		border-radius: 0.3rem;
-		font-size: 1.1rem;
-		padding: 0.5rem;
-		width: 100%;
-		position: relative;
-	}
+.input-wrapper.error {
+  padding-bottom: 2.5rem;
+}
 
-	label.hidden {
-		opacity: 0;
-	}
+.input-wrapper.error input {
+  border: 2px solid var(--clr-error-red);
+}
 
-	.error-text {
-		color: var(--clr-error-red);
-		position: absolute;
-		top: 4.25rem;
-		left: 1em;
-	}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
 
-	.input-wrapper.error {
-		padding-bottom: 2.5rem;
-	}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 
-	.input-wrapper.error input {
-		border: 2px solid var(--clr-error-red);
-	}
-
-	.v-enter-active,
-	.v-leave-active {
-		transition: opacity 0.3s ease;
-	}
-
-	.v-enter-from,
-	.v-leave-to {
-		opacity: 0;
-	}
-
-	@media only screen and (min-width: 400px) {
-		.input-wrapper {
-			position: relative;
-		}
-	}
+@media only screen and (min-width: 400px) {
+  .input-wrapper {
+    position: relative;
+  }
+}
 </style>
