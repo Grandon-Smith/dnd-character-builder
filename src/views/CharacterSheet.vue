@@ -1,13 +1,12 @@
 <script setup>
 	import NavHeader from "../components/NavHeader.vue";
-	import { ref } from "vue";
-	import { useUserDataStore } from "../store";
+	import { onMounted, ref } from "vue";
+	import { useStore } from "../store";
+	import { useRoute } from "vue-router";
 
-	const store = useUserDataStore();
-
-	defineProps({
-		msg: String,
-	});
+	const store = useStore();
+	const route = useRoute();
+	store.selectedCharacterIndex = route.params;
 
 	const abilityScoreDataArr = ref([
 		{
@@ -76,16 +75,19 @@
 	]);
 
 	const editingSection = ref(null);
+
+	onMounted(() => {
+		console.log("character sheet mount", route);
+	});
 </script>
 
 <template>
 	<div class="character-sheet-container">
 		<NavHeader headerText="Char Name" />
-		<div class="stats-sections-container">
+		<!-- <div class="stats-sections-container">
 			<section class="stat-section health">
 				<div class="img-container"></div>
 				<h3>Level: {{ store.charData.level }}</h3>
-				<!-- <div class="health-info-container"> -->
 				<h3>Armor Class: {{ store.charData.armorClass }}</h3>
 				<h3>Health</h3>
 				<p>
@@ -96,9 +98,6 @@
 				<div class="full-health-bar">
 					<div class="current-health-bar"></div>
 				</div>
-				<!-- </div> -->
-				<!-- <div class="health-info-container"> -->
-				<!-- </div> -->
 			</section>
 
 			<section class="stat-section scores">
@@ -114,6 +113,7 @@
 						v-if="editingSection === 'stats'">
 						<div
 							class="ability-score-info-row"
+							:key="row.abilityName"
 							v-for="row in abilityScoreDataArr">
 							<input
 								type="text"
@@ -127,6 +127,7 @@
 						v-else>
 						<div
 							class="ability-score-info-row"
+							:key="row.abilityName"
 							v-for="row in abilityScoreDataArr">
 							<p>{{ row.score }}</p>
 							<p>{{ row.abilityName }}</p>
@@ -139,6 +140,7 @@
 					<h2>Skills</h2>
 					<div
 						class="ability-score-info-row"
+						:key="row.abilityName"
 						v-for="row in skillsDataArr">
 						<p>{{ row.bonus }}</p>
 						<p>{{ row.skillName }}</p>
@@ -151,13 +153,14 @@
 					<h2>Equipment</h2>
 					<div
 						class="ability-score-info-row"
-						v-for="row in equipmentArr">
+						v-for="row in equipmentArr"
+						:key="row.itemName">
 						<p>{{ row.itemName }}</p>
 						<p>{{ row.toolTip }}</p>
 					</div>
 				</div>
 			</section>
-		</div>
+		</div> -->
 	</div>
 </template>
 

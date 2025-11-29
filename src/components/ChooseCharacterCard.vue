@@ -1,15 +1,19 @@
 <script setup>
 	import { useRouter, useRoute } from "vue-router";
 	import { ref, onMounted } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 
 	const route = useRoute();
 	const router = useRouter();
 
-	const store = useUserDataStore();
+	const store = useStore();
 	const props = defineProps({
 		characterObj: {
 			type: Object,
+			required: true,
+		},
+		cardIndex: {
+			type: Number,
 			required: true,
 		},
 	});
@@ -22,14 +26,16 @@
 <template>
 	<router-link
 		class="character-container"
-		to="/character-sheet">
+		:to="'/character-sheet/' + cardIndex">
 		<div class="character-img-wrapper"></div>
 		<div class="character-info-container">
 			<h3>{{ characterObj.name }}</h3>
 			<p>
 				Class:
-				<span v-for="classes in characterObj.classes"
-					>{{ classes.class + " " }}
+				<span
+					v-for="classes in characterObj.classes"
+					:key="classes.name"
+					>{{ classes.name + " " }}
 				</span>
 			</p>
 			<p>Level: {{ characterObj.level }}</p>
@@ -37,10 +43,11 @@
 	</router-link>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 	.character-container {
 		border: 1px solid var(--clr-black-1);
 		border-radius: 8px;
+		background-color: #ffffff;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -49,6 +56,11 @@
 		max-width: 22rem;
 		min-width: 15rem;
 		width: 100%;
+		transition: transform 0.2s;
+
+		&:hover {
+			transform: scale(1.05);
+		}
 	}
 
 	.character-img-wrapper {

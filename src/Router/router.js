@@ -28,7 +28,7 @@ const routes = [
 		component: NewCharacter,
 	},
 	{
-		path: "/character-sheet",
+		path: "/character-sheet/:id",
 		name: "Character Sheet",
 		component: CharacterSheet,
 	},
@@ -37,6 +37,11 @@ const routes = [
 		name: "Choose Character",
 		component: ChooseCharacter,
 	},
+	// {
+	// 	path: "/add-member",
+	// 	name: "Choose Character",
+	// 	component: ChooseCharacter,
+	// },
 	{
 		path: "/",
 		name: "Home",

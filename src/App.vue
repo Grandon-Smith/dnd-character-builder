@@ -1,9 +1,9 @@
 <script setup>
 	import { useRouter, useRoute } from "vue-router";
-	import { useUserDataStore } from "./store";
+	import { useStore } from "./store";
 	import { onMounted } from "vue";
 
-	const store = useUserDataStore();
+	const store = useStore();
 
 	const route = useRoute();
 	const router = useRouter();

@@ -1,57 +1,59 @@
-import { useUserDataStore } from "../store.js";
+import { useStore } from "../store.js";
 import router from "../router/router.js";
 
-const DOMAIN = "http://localhost:3000";
+const API_URL =
+	import.meta.VITE_API_URL_DEV || "http://localhost:3000/api/auth";
 
 export const authServices = {
-	handleLogin: async (data) => {
-		const { email, password } = data;
-		const STORE = useUserDataStore();
-		const OPTIONS = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			credentials: "include", // Necessary for cookies
-			body: JSON.stringify({ email, password }),
-		};
+	handleLogin: async (options) => {
+		const store = useStore();
+		store.setFetchingData(true);
 
-		try {
-			const res = await fetch(
-				"http://localhost:3000/api/auth/login",
-				OPTIONS
-			);
-			const data = await res.json();
-			if (res.ok && res.status === 200) {
-				STORE.user = data.user;
-				STORE.token = data.token;
-				localStorage.setItem("token", data.token);
-				router.push("/choose-character");
-			} else {
-				const errorData = await res.json();
-				STORE.setErrorMsg(res.errorMsg);
-				throw new Error(errorData.message || "Login failed");
-			}
+		await fetch(API_URL + "/login", options)
+			.then((res) => res.json().then((data) => ({ raw: res, data })))
+			.then(({ raw, data }) => {
+				// data = parsed JSON body    raw = original response with status, ok, etc.
+				setTimeout(() => {
+					if (raw.ok && (raw.status === 200 || raw.status === 201)) {
+						store.user = {
+							username: data.user,
+							email: data.email,
+							id: data.id,
+						};
+						localStorage.setItem("token", data.token);
 
-			STORE.fetchingData = false;
-			return data;
-		} catch (error) {
-			throw error.message;
-		}
+						router.push("/choose-character");
+					} else {
+						console.log("error~!!");
+						store.setErrorMsg(data.message);
+					}
+				}, 2000);
+			})
+			.catch((err) => {
+				console.warn(err);
+				throw err.message;
+			});
+		store.setFetchingData();
 	},
 
-	handleMakeNewUser: async (OPTIONS) => {
-		const store = useUserDataStore();
-		await fetch(DOMAIN + "/api/auth/newUser", OPTIONS)
+	handleMakeNewUser: async (options) => {
+		const store = useStore();
+
+		store.setFetchingData(true);
+		await fetch(API_URL + "/newUser", options)
 			.then((res) => res.json())
 			.then((res) => {
+				console.log("new user res", res);
 				setTimeout(() => {
 					if (res.ok && res.status === 201) {
+						store.user = data.user;
 						router.push("/choose-character");
 					} else {
 						store.setErrorMsg(res.errorMsg);
 					}
-					store.fetchingData = false;
 				}, 1000);
 			})
 			.catch((err) => console.warn(err));
+		store.setFetchingData();
 	},
 };

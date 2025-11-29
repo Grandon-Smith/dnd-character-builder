@@ -1,9 +1,9 @@
 <script setup>
 	import { onMounted } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 	import { ref } from "vue";
 
-	const store = useUserDataStore();
+	const store = useStore();
 	const props = defineProps({
 		headerText: String,
 	});
@@ -56,6 +56,11 @@
 				</li>
 			</ul>
 		</div>
+		<button
+			class="btn-1"
+			@click="store.fetchProfile()">
+			GET PROFILE
+		</button>
 		<h2>{{ headerText }}</h2>
 	</nav>
 </template>
