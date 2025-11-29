@@ -56,6 +56,11 @@
 				</li>
 			</ul>
 		</div>
+		<button
+			class="btn-1"
+			@click="store.fetchProfile()">
+			GET PROFILE
+		</button>
 		<h2>{{ headerText }}</h2>
 	</nav>
 </template>

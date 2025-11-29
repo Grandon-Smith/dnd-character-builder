@@ -12,6 +12,10 @@
 			type: Object,
 			required: true,
 		},
+		cardIndex: {
+			type: Number,
+			required: true,
+		},
 	});
 
 	onMounted(() => {
@@ -22,28 +26,28 @@
 <template>
 	<router-link
 		class="character-container"
-		to="/character-sheet">
-		aljfsd
-		<!-- <div class="character-img-wrapper"></div>
+		:to="'/character-sheet/' + cardIndex">
+		<div class="character-img-wrapper"></div>
 		<div class="character-info-container">
 			<h3>{{ characterObj.name }}</h3>
 			<p>
 				Class:
 				<span
 					v-for="classes in characterObj.classes"
-					:key="classes.class"
-					>{{ classes.class + " " }}
+					:key="classes.name"
+					>{{ classes.name + " " }}
 				</span>
 			</p>
 			<p>Level: {{ characterObj.level }}</p>
-		</div> -->
+		</div>
 	</router-link>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 	.character-container {
 		border: 1px solid var(--clr-black-1);
 		border-radius: 8px;
+		background-color: #ffffff;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -52,6 +56,11 @@
 		max-width: 22rem;
 		min-width: 15rem;
 		width: 100%;
+		transition: transform 0.2s;
+
+		&:hover {
+			transform: scale(1.05);
+		}
 	}
 
 	.character-img-wrapper {

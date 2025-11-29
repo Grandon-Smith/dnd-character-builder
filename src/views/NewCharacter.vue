@@ -1,16 +1,18 @@
 <script setup>
 	import { ref } from "vue";
 	import { useStore } from "../store";
-	const store = useStore();
 	import NavHeader from "../components/NavHeader.vue";
 	import { useRouter } from "vue-router";
+	import { characterServices } from "../services/characters";
 
+	const store = useStore();
 	const router = useRouter();
 
 	const character = ref({
 		name: "test Name",
 		race: "elf",
 		classes: [{ name: "Wizard", level: 1 }],
+		level: 1,
 		stats: {
 			strength: 10,
 			dexterity: 10,
@@ -31,47 +33,33 @@
 		inventory: [],
 		spells: [],
 		notes: "",
-		player: "680046f46896cf2706722b76",
+		player: "",
 	});
 
 	const addClass = () => {
-		character.classes.push({ name: "", level: 1 });
+		character.value.classes.push({ name: "", level: 1 });
 	};
 
 	const removeClass = (index) => {
-		character.classes.splice(index, 1);
+		character.value.classes.splice(index, 1);
 	};
 
 	async function submitCharacter() {
 		try {
-			await store.saveNewCharacterLocally(character.value);
-			router.push("/choose-character");
+			// await store.saveNewCharacterLocally(character.value);
+			// router.push("/choose-character");
+			character.value.level = character.value.classes.reduce(
+				(sum, c) => sum + c.level,
+				0
+			);
 
-			// const OPTIONS = {
-			// 	method: "GET",
-			// 	headers: { "Content-Type": "application/json" },
-			// 	credentials: "include", // Necessary for cookies
-			// };
-			// const user = await fetch(
-			// 	"http://localhost:3000/api/auth/profile",
-			// 	OPTIONS
-			// );
-			// const userData = await user.json();
-			// console.log("asdfsdf", userData);
+			const options = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(character.value),
+			};
 
-			// const response = await fetch(
-			// 	"http://localhost:3000/api/character/create",
-			// 	{
-			// 		method: "POST",
-			// 		headers: { "Content-Type": "application/json" },
-			// 		body: JSON.stringify(character),
-			// 	}
-			// );
-
-			// if (!response.ok) throw new Error("Failed to create character");
-
-			// const data = await response.json();
-			// alert(`Character created! ID: ${data._id}`);
+			characterServices.createNewCharacter(options);
 		} catch (error) {
 			console.error(error);
 			alert("Error creating character");
@@ -160,19 +148,6 @@
 					v-model.number="character.hitPoints.max"
 					type="number"
 					required />
-
-				<label for="hp-current">Current HP</label>
-				<input
-					id="hp-current"
-					v-model.number="character.hitPoints.current"
-					type="number"
-					required />
-
-				<label for="hp-temp">Temporary HP</label>
-				<input
-					id="hp-temp"
-					v-model.number="character.hitPoints.temporary"
-					type="number" />
 			</fieldset>
 
 			<!-- Combat -->

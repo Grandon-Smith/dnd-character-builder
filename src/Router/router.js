@@ -28,7 +28,7 @@ const routes = [
 		component: NewCharacter,
 	},
 	{
-		path: "/character-sheet",
+		path: "/character-sheet/:id",
 		name: "Character Sheet",
 		component: CharacterSheet,
 	},

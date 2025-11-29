@@ -1,19 +1,19 @@
 import { defineStore } from "pinia";
 
+console.log("Store Initialized");
 export const useStore = defineStore("store", {
 	state: () => ({
 		userData: null,
 		fetchingData: false,
-		characterIdx: 0,
+		selectedCharacterIndex: 0,
 		appKey: 0,
 		errorMsg: "",
-		user: null,
+		user: {},
 		token: localStorage.getItem("token") || null,
 	}),
 	getters: {
 		charData(state) {
-			return state.userData.characters[state.characterIdx]
-				.characterData;
+			return state.userData.characters[state.selectedCharacterIndex];
 		},
 
 		isFetching(state) {
@@ -41,20 +41,7 @@ export const useStore = defineStore("store", {
 		},
 
 		saveNewCharacterLocally(characterData) {
-			return new Promise((resolve, reject) => {
-				try {
-					this.setFetchingData(true);
-					this.userData.characters.push(characterData);
-
-					// simulate async delay
-					setTimeout(() => {
-						this.setFetchingData(false);
-						resolve(); // <- tell the promise it's done
-					}, 2000);
-				} catch (error) {
-					reject(error); // <- tell the promise it failed
-				}
-			});
+			this.userData.characters.push(characterData);
 		},
 
 		async login(email, password) {
@@ -98,7 +85,12 @@ export const useStore = defineStore("store", {
 				if (!response.ok) throw new Error("Unauthorized");
 
 				const data = await response.json();
-				this.user = data.user;
+				console.log("user", data);
+				this.user = {
+					username: data.user.username,
+					email: data.user.email,
+					id: data.user._id,
+				};
 			} catch {
 				this.user = null;
 				this.token = null;

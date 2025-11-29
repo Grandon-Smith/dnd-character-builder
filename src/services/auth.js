@@ -1,22 +1,25 @@
 import { useStore } from "../store.js";
 import router from "../router/router.js";
 
-const DOMAIN =
-	import.meta.VITE_API_URL_DEV || "http://localhost:3000";
+const API_URL =
+	import.meta.VITE_API_URL_DEV || "http://localhost:3000/api/auth";
 
 export const authServices = {
 	handleLogin: async (options) => {
 		const store = useStore();
 		store.setFetchingData(true);
 
-		await fetch("http://localhost:3000/api/auth/login", options)
+		await fetch(API_URL + "/login", options)
 			.then((res) => res.json().then((data) => ({ raw: res, data })))
 			.then(({ raw, data }) => {
 				// data = parsed JSON body    raw = original response with status, ok, etc.
 				setTimeout(() => {
 					if (raw.ok && (raw.status === 200 || raw.status === 201)) {
-						store.user = data.user;
-						store.token = data.token;
+						store.user = {
+							username: data.user,
+							email: data.email,
+							id: data.id,
+						};
 						localStorage.setItem("token", data.token);
 
 						router.push("/choose-character");
@@ -37,7 +40,7 @@ export const authServices = {
 		const store = useStore();
 
 		store.setFetchingData(true);
-		await fetch(DOMAIN + "/api/auth/newUser", options)
+		await fetch(API_URL + "/newUser", options)
 			.then((res) => res.json())
 			.then((res) => {
 				console.log("new user res", res);
