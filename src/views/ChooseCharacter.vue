@@ -2,10 +2,10 @@
 	import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
 	import NavHeader from "../components/NavHeader.vue";
 	import { ref } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 	import { onMounted } from "vue";
 
-	const store = useUserDataStore();
+	const store = useStore();
 
 	onMounted(() => {
 		store.setMockData();

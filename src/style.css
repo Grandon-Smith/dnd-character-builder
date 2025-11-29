@@ -91,9 +91,8 @@ button {
 }
 
 .btn-1 {
-	background-color: var(--clr-black-1);
+	background-color: dodgerblue;
 	color: #fff;
-	display: block;
 	padding: 0.75em 1em;
 }
 

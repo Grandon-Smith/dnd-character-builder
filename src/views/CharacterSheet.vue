@@ -1,9 +1,9 @@
 <script setup>
 	import NavHeader from "../components/NavHeader.vue";
 	import { ref } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 
-	const store = useUserDataStore();
+	const store = useStore();
 
 	defineProps({
 		msg: String,
@@ -114,6 +114,7 @@
 						v-if="editingSection === 'stats'">
 						<div
 							class="ability-score-info-row"
+							:key="row.abilityName"
 							v-for="row in abilityScoreDataArr">
 							<input
 								type="text"
@@ -127,6 +128,7 @@
 						v-else>
 						<div
 							class="ability-score-info-row"
+							:key="row.abilityName"
 							v-for="row in abilityScoreDataArr">
 							<p>{{ row.score }}</p>
 							<p>{{ row.abilityName }}</p>
@@ -139,6 +141,7 @@
 					<h2>Skills</h2>
 					<div
 						class="ability-score-info-row"
+						:key="row.abilityName"
 						v-for="row in skillsDataArr">
 						<p>{{ row.bonus }}</p>
 						<p>{{ row.skillName }}</p>
@@ -151,7 +154,8 @@
 					<h2>Equipment</h2>
 					<div
 						class="ability-score-info-row"
-						v-for="row in equipmentArr">
+						v-for="row in equipmentArr"
+						:key="row.itemName">
 						<p>{{ row.itemName }}</p>
 						<p>{{ row.toolTip }}</p>
 					</div>

@@ -1,13 +1,13 @@
 <script setup>
 	import TextInput from "../components/TextInput.vue";
 	import { ref } from "vue";
-	import { validateEmail, encodeText } from "../utils";
-	import { useUserDataStore } from "../store";
+	import { validateEmail, encodeText, createFormObj } from "../utils";
+	import { useStore } from "../store";
 	import { useRoute } from "vue-router";
 	import { authServices } from "../services/auth";
 
 	const route = useRoute();
-	const store = useUserDataStore();
+	const store = useStore();
 
 	const isCreateAcctPage = ref(route.path === "/create-account");
 	const usernameInput = ref({
@@ -62,9 +62,7 @@
 		}
 	}
 
-	async function handleFormSubmit() {
-		store.fetchingData = true;
-
+	async function submitLoginForm() {
 		if (isCreateAcctPage) {
 			checkName();
 		}
@@ -76,30 +74,29 @@
 			return;
 		}
 
-		const HASHPASS = encodeText(passwordInput.value.textVal);
-		console.log(HASHPASS);
-		const BODY = JSON.stringify({
-			email: emailInput.value.textVal,
-			password: HASHPASS,
-			userName: usernameInput.value.textVal
-				? usernameInput.value.textVal
-				: null,
-		});
+		const hashedPassword = encodeText(passwordInput.value.textVal);
+		const postBody = createFormObj(
+			isCreateAcctPage.value,
+			usernameInput.value.textVal,
+			emailInput.value.textVal,
+			hashedPassword
+		);
 
-		const OPTIONS = {
+		const options = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: BODY,
+			credentials: "include",
+			body: postBody,
 		};
 
 		if (isCreateAcctPage.value) {
 			// new user submit
-			authServices.handleMakeNewUser(OPTIONS);
+			authServices.handleMakeNewUser(options);
 		} else {
 			// login submit
-			await authServices.handleLogin(BODY);
+			await authServices.handleLogin(options);
 		}
 	}
 
@@ -123,7 +120,7 @@
 					: "Welcome Back Adventurer"
 			}}
 		</h1>
-		<form @submit.prevent="handleFormSubmit">
+		<form @submit.prevent="submitLoginForm">
 			<TextInput
 				v-if="isCreateAcctPage"
 				:errorMsg="usernameInput.errorMsg"
@@ -164,8 +161,8 @@
 			<p v-if="store.errorMsg.length">
 				{{ store.errorMsg }}
 			</p>
-			<!-- :disabled="store.isFetching === true" -->
 			<button
+				:disabled="store.isFetching"
 				class="login-submit-btn btn-1"
 				type="submit">
 				{{ isCreateAcctPage ? "Create Account" : "Log in" }}

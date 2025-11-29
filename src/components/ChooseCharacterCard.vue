@@ -1,12 +1,12 @@
 <script setup>
 	import { useRouter, useRoute } from "vue-router";
 	import { ref, onMounted } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 
 	const route = useRoute();
 	const router = useRouter();
 
-	const store = useUserDataStore();
+	const store = useStore();
 	const props = defineProps({
 		characterObj: {
 			type: Object,
@@ -23,17 +23,20 @@
 	<router-link
 		class="character-container"
 		to="/character-sheet">
-		<div class="character-img-wrapper"></div>
+		aljfsd
+		<!-- <div class="character-img-wrapper"></div>
 		<div class="character-info-container">
 			<h3>{{ characterObj.name }}</h3>
 			<p>
 				Class:
-				<span v-for="classes in characterObj.classes"
+				<span
+					v-for="classes in characterObj.classes"
+					:key="classes.class"
 					>{{ classes.class + " " }}
 				</span>
 			</p>
 			<p>Level: {{ characterObj.level }}</p>
-		</div>
+		</div> -->
 	</router-link>
 </template>
 

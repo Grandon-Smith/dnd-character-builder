@@ -15,3 +15,21 @@ export function encodeText(string) {
 		point.toString(16)
 	).join("");
 }
+
+export function createFormObj(
+	isCreateAcctPage,
+	username,
+	email,
+	password
+) {
+	const formDataObj = {
+		email,
+		password,
+	};
+
+	if (isCreateAcctPage) {
+		formDataObj.username = username;
+	}
+
+	return JSON.stringify(formDataObj);
+}

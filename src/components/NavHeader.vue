@@ -1,9 +1,9 @@
 <script setup>
 	import { onMounted } from "vue";
-	import { useUserDataStore } from "../store";
+	import { useStore } from "../store";
 	import { ref } from "vue";
 
-	const store = useUserDataStore();
+	const store = useStore();
 	const props = defineProps({
 		headerText: String,
 	});
