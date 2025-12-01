@@ -1,5 +1,4 @@
 <script setup>
-	import { onMounted, ref } from "vue";
 	import { useStore } from "../store";
 	import {
 		calcProficiencyBonus,
@@ -20,22 +19,20 @@
 		const pb = calcProficiencyBonus(props.characterLevel);
 		const proficient = props.skillProfs?.includes(skill);
 
-		return proficient ? mod + pb : mod;
+		const bonus = proficient ? mod + pb : mod;
+		return bonus > 0 ? "+" + bonus : bonus;
 	}
-	onMounted(() => {
-		console.log(calcSkillBonus("dexterity", "acrobatics"));
-	});
 </script>
 
 <template>
 	<section class="info-block-container">
 		<h2>{{ infoHeader }}</h2>
-		<div class="ability-table-wrapper">
-			<table class="ability-table">
+		<div class="skills-table-wrapper">
+			<table class="skills-table">
 				<thead>
 					<tr>
-						<th>Bonus</th>
 						<th>Skill Name</th>
+						<th>Bonus</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,16 +53,10 @@
 		position: relative;
 	}
 
-	.edit-btn {
-		position: absolute;
-		right: 0.5rem;
-		top: 0.5rem;
-	}
-
-	.ability-table-wrapper {
+	.skills-table-wrapper {
 		overflow-x: auto;
 
-		.ability-table {
+		.skills-table {
 			width: 100%;
 			text-align: center;
 			border-spacing: 0.5rem;
@@ -73,6 +64,7 @@
 			& td,
 			th {
 				padding: 0.25rem 0.5rem;
+				text-transform: capitalize;
 			}
 
 			& td:first-of-type {

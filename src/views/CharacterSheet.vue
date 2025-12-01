@@ -6,6 +6,7 @@
 	import NavHeader from "../components/NavHeader.vue";
 	import AbilityScoresTable from "../components/AbilityScoresTable.vue";
 	import SkillsTable from "../components/SkillsTable.vue";
+	import BaseStats from "../components/BaseStats.vue";
 
 	const store = useStore();
 	const route = useRoute();
@@ -40,6 +41,7 @@
 				<div class="img-container"></div>
 				<h3>Level: {{ characterData.level }}</h3>
 				<h3>Armor Class: {{ characterData.armorClass }}</h3>
+				<h3>Add inspiration up here. btn to add it?</h3>
 				<h3>Health</h3>
 				<p>
 					HP:
@@ -50,6 +52,7 @@
 					<div class="current-health-bar"></div>
 				</div>
 			</section>
+			<BaseStats :charData="characterData" />
 			<AbilityScoresTable
 				infoHeader="Ability Scores"
 				:infoArray="characterData.abilityScores"
@@ -60,39 +63,6 @@
 				:characterLevel="characterData.level"
 				:skillProfs="characterData.skillProficiencies"
 				:abilityScores="characterData.abilityScores" />
-			<!-- <section class="stat-section scores">
-				<div class="ability-score-container">
-					<h2>Ability Scores</h2>
-					<button
-						class="edit-btn"
-						@click="editingSection = 'stats'">
-						edit
-					</button>
-					<div
-						class="abilty-score-container"
-						v-if="editingSection === 'stats'">
-						<div
-							v-for="(score, i, key) in characterData.stats"
-							class="ability-score-info-row"
-							:key="i">
-							<input type="text" />
-							<p>{{ key }}</p>
-							<p>{{ score }}</p>
-						</div>
-					</div>
-					<div
-						class="abilty-score-container"
-						v-if="!editingSection">
-						<div
-							v-for="(value, key, i) in characterData.stats"
-							class="ability-value-info-row"
-							:key="i">
-							<p>{{ value }} {{ key }}</p>
-							<p></p>
-						</div>
-					</div>
-				</div>
-			</section> -->
 
 			<!-- <section class="stat-section">
 				<div class="equipment-info">

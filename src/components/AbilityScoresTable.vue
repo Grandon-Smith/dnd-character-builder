@@ -101,6 +101,7 @@
 			& td,
 			th {
 				padding: 0.25rem 0.5rem;
+				text-transform: capitalize;
 			}
 
 			& td:first-of-type {
