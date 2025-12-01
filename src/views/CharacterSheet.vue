@@ -1,106 +1,66 @@
 <script setup>
-	import NavHeader from "../components/NavHeader.vue";
-	import { onMounted, ref } from "vue";
+	import { onBeforeMount, ref, computed } from "vue";
 	import { useStore } from "../store";
 	import { useRoute } from "vue-router";
+	import { characterServices } from "../services/characters";
+	import NavHeader from "../components/NavHeader.vue";
+	import AbilityScoresTable from "../components/AbilityScoresTable.vue";
+	import SkillsTable from "../components/SkillsTable.vue";
 
 	const store = useStore();
 	const route = useRoute();
-	store.selectedCharacterIndex = route.params;
-
-	const abilityScoreDataArr = ref([
-		{
-			score: 10,
-			abilityName: "Strength",
-			bonus: 0,
-		},
-		{
-			score: 10,
-			abilityName: "Dexterity",
-			bonus: 0,
-		},
-		{
-			score: 10,
-			abilityName: "Constitution",
-			bonus: 0,
-		},
-		{
-			score: 10,
-			abilityName: "Intelligence",
-			bonus: 0,
-		},
-		{
-			score: 10,
-			abilityName: "Wisdom",
-			bonus: 0,
-		},
-		{
-			score: 10,
-			abilityName: "Charisma",
-			bonus: 0,
-		},
-	]);
-
-	const equipmentArr = ref([
-		{
-			itemName: "Mithral Chain Mail",
-			toolTip: "+2 AC",
-		},
-		{
-			itemName: "Mithral Chain Mail",
-			toolTip: "+2 AC",
-		},
-		{
-			itemName: "Mithral Chain Mail",
-			toolTip: "+2 AC",
-		},
-	]);
-	const skillsDataArr = ref([
-		{
-			bonus: "+3",
-			skillName: "Acrobatics",
-		},
-		{
-			bonus: "+3",
-			skillName: "Animal Handling",
-		},
-		{
-			bonus: "+3",
-			skillName: "Arcana",
-		},
-		{
-			bonus: "+3",
-			skillName: "Athletics",
-		},
-	]);
 
 	const editingSection = ref(null);
+	const characterData = computed(() => store.selectedCharacterData);
 
-	onMounted(() => {
+	onBeforeMount(async () => {
 		console.log("character sheet mount", route);
+		store.setSelectedCharacter(route.params.id);
+		if (!characterData.value) {
+			console.log("inside if statement");
+			const options = {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			};
+			await characterServices.getAllCharactersForUser(options);
+			setTimeout(() => {
+				store.setSelectedCharacter(route.params.id);
+			}, 1000);
+		}
 	});
 </script>
 
 <template>
-	<div class="character-sheet-container">
-		<NavHeader headerText="Char Name" />
-		<!-- <div class="stats-sections-container">
+	<div
+		class="character-sheet-container"
+		v-if="characterData">
+		<NavHeader :headerText="characterData.name" />
+		<div class="stats-sections-container">
 			<section class="stat-section health">
 				<div class="img-container"></div>
-				<h3>Level: {{ store.charData.level }}</h3>
-				<h3>Armor Class: {{ store.charData.armorClass }}</h3>
+				<h3>Level: {{ characterData.level }}</h3>
+				<h3>Armor Class: {{ characterData.armorClass }}</h3>
 				<h3>Health</h3>
 				<p>
 					HP:
-					{{ store.charData.currentHealth }}/
-					{{ store.charData.maxHealth }}
+					{{ characterData.currentHealth }}/
+					{{ characterData.maxHealth }}
 				</p>
 				<div class="full-health-bar">
 					<div class="current-health-bar"></div>
 				</div>
 			</section>
-
-			<section class="stat-section scores">
+			<AbilityScoresTable
+				infoHeader="Ability Scores"
+				:infoArray="characterData.abilityScores"
+				:characterLevel="characterData.level"
+				:savingThrowProfs="characterData.savingThrowProficiencies" />
+			<SkillsTable
+				infoHeader="Skills"
+				:characterLevel="characterData.level"
+				:skillProfs="characterData.skillProficiencies"
+				:abilityScores="characterData.abilityScores" />
+			<!-- <section class="stat-section scores">
 				<div class="ability-score-container">
 					<h2>Ability Scores</h2>
 					<button
@@ -112,43 +72,29 @@
 						class="abilty-score-container"
 						v-if="editingSection === 'stats'">
 						<div
+							v-for="(score, i, key) in characterData.stats"
 							class="ability-score-info-row"
-							:key="row.abilityName"
-							v-for="row in abilityScoreDataArr">
-							<input
-								type="text"
-								v-model="row.score" />
-							<p>{{ row.abilityName }}</p>
-							<p>{{ row.bonus }}</p>
+							:key="i">
+							<input type="text" />
+							<p>{{ key }}</p>
+							<p>{{ score }}</p>
 						</div>
 					</div>
 					<div
 						class="abilty-score-container"
-						v-else>
+						v-if="!editingSection">
 						<div
-							class="ability-score-info-row"
-							:key="row.abilityName"
-							v-for="row in abilityScoreDataArr">
-							<p>{{ row.score }}</p>
-							<p>{{ row.abilityName }}</p>
-							<p>{{ row.bonus }}</p>
+							v-for="(value, key, i) in characterData.stats"
+							class="ability-value-info-row"
+							:key="i">
+							<p>{{ value }} {{ key }}</p>
+							<p></p>
 						</div>
 					</div>
 				</div>
+			</section> -->
 
-				<div class="ability-score-container">
-					<h2>Skills</h2>
-					<div
-						class="ability-score-info-row"
-						:key="row.abilityName"
-						v-for="row in skillsDataArr">
-						<p>{{ row.bonus }}</p>
-						<p>{{ row.skillName }}</p>
-					</div>
-				</div>
-			</section>
-
-			<section class="stat-section">
+			<!-- <section class="stat-section">
 				<div class="equipment-info">
 					<h2>Equipment</h2>
 					<div
@@ -159,8 +105,8 @@
 						<p>{{ row.toolTip }}</p>
 					</div>
 				</div>
-			</section>
-		</div> -->
+			</section> -->
+		</div>
 	</div>
 </template>
 
@@ -175,10 +121,6 @@
 		display: grid;
 		grid-template-columns: 1fr;
 		padding: 0.5rem 0.25rem;
-	}
-
-	.stat-section {
-		position: relative;
 	}
 
 	.health {

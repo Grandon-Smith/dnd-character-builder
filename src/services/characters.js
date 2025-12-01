@@ -39,16 +39,16 @@ export const characterServices = {
 			.then((res) => res.json().then((data) => ({ raw: res, data })))
 			.then(({ raw, data }) => {
 				// data = parsed JSON body    raw = original response with status, ok, etc.
-				setTimeout(() => {
-					if (raw.ok && (raw.status === 200 || raw.status === 201)) {
-						console.log("all characters:", data);
-						store.userData.characters = data;
-						// router.push("/choose-character");
-					} else {
-						console.log("error~!!");
-						store.setErrorMsg(data.message);
-					}
-				}, 2000);
+				// setTimeout(() => {
+				if (raw.ok && (raw.status === 200 || raw.status === 201)) {
+					console.log("all characters:", data);
+					store.userData.characters = data;
+					// router.push("/choose-character");
+				} else {
+					console.log("error~!!");
+					store.setErrorMsg(data.message);
+				}
+				// }, 2000);
 			})
 			.catch((err) => {
 				console.warn(err);

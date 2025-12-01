@@ -2,7 +2,6 @@
 	import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
 	import NavHeader from "../components/NavHeader.vue";
 	import { characterServices } from "../services/characters";
-	import { ref } from "vue";
 	import { useStore } from "../store";
 	import { onBeforeMount } from "vue";
 
@@ -10,11 +9,13 @@
 
 	onBeforeMount(() => {
 		console.log("choose char mount", store);
-		const options = {
-			method: "GET",
-			headers: { "Content-Type": "application/json" },
-		};
-		characterServices.getAllCharactersForUser(options);
+		if (!store.userData.characters.length) {
+			const options = {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			};
+			characterServices.getAllCharactersForUser(options);
+		}
 	});
 </script>
 

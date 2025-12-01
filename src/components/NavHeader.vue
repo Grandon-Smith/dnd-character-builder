@@ -17,10 +17,10 @@
 			text: "Add Character",
 			path: "/add-character",
 		},
-		{
-			text: "Add Member",
-			path: "/add-member",
-		},
+		// {
+		// 	text: "Add Member",
+		// 	path: "/add-member",
+		// },
 		{
 			text: "Log Out",
 			path: "/",

@@ -13,7 +13,7 @@
 		race: "elf",
 		classes: [{ name: "Wizard", level: 1 }],
 		level: 1,
-		stats: {
+		abilityScores: {
 			strength: 10,
 			dexterity: 10,
 			constitution: 10,
@@ -29,7 +29,8 @@
 		armorClass: 10,
 		speed: 30,
 		initiative: 2,
-		proficiencies: [],
+		skillProficiencies: [],
+		savingThrowProficiencies: [],
 		inventory: [],
 		spells: [],
 		notes: "",
@@ -92,10 +93,17 @@
 					v-for="(cls, index) in character.classes"
 					:key="index">
 					<label :for="'class-name-' + index">Class Name</label>
-					<input
+					<select
 						:id="'class-name-' + index"
 						v-model="cls.name"
-						required />
+						required>
+						<option
+							v-for="charClass in store.classesList"
+							:key="charClass"
+							:value="charClass">
+							{{ charClass }}
+						</option>
+					</select>
 
 					<label :for="'class-level-' + index">Class Level</label>
 					<input
@@ -126,14 +134,14 @@
 			<fieldset>
 				<legend>Ability Scores</legend>
 				<div
-					v-for="(value, stat) in character.stats"
+					v-for="(value, stat) in character.abilityScores"
 					:key="stat">
 					<label :for="stat">{{
 						stat.charAt(0).toUpperCase() + stat.slice(1)
 					}}</label>
 					<input
 						:id="stat"
-						v-model.number="character.stats[stat]"
+						v-model.number="character.abilityScores[stat]"
 						type="number"
 						required />
 				</div>

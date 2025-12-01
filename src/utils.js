@@ -33,3 +33,11 @@ export function createFormObj(
 
 	return JSON.stringify(formDataObj);
 }
+
+export function calcProficiencyBonus(level) {
+	return 2 + Math.floor((level - 1) / 4);
+}
+
+export function calcAbilityModifier(score) {
+	return Math.floor((score - 10) / 2);
+}

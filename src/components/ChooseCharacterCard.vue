@@ -1,32 +1,16 @@
 <script setup>
-	import { useRouter, useRoute } from "vue-router";
-	import { ref, onMounted } from "vue";
-	import { useStore } from "../store";
-
-	const route = useRoute();
-	const router = useRouter();
-
-	const store = useStore();
 	const props = defineProps({
 		characterObj: {
 			type: Object,
 			required: true,
 		},
-		cardIndex: {
-			type: Number,
-			required: true,
-		},
-	});
-
-	onMounted(() => {
-		console.log("character card mount", props.characterObj);
 	});
 </script>
 
 <template>
 	<router-link
 		class="character-container"
-		:to="'/character-sheet/' + cardIndex">
+		:to="'/character-sheet/' + characterObj._id">
 		<div class="character-img-wrapper"></div>
 		<div class="character-info-container">
 			<h3>{{ characterObj.name }}</h3>
