@@ -42,13 +42,12 @@
 			v-if="!store.userData.characters.length"
 			class="no-character-warn">
 			Looks like you don't have a character yet. Lets change that!
-
-			<router-link to="/add-character"
-				><button class="new-char-btn btn-1">
-					Create a new character!
-				</button></router-link
-			>
 		</p>
+		<router-link to="/add-character"
+			><button class="new-char-btn btn-1">
+				Create a new character!
+			</button></router-link
+		>
 	</div>
 </template>
 

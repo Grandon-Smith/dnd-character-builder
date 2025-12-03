@@ -63,19 +63,6 @@
 				:characterLevel="characterData.level"
 				:skillProfs="characterData.skillProficiencies"
 				:abilityScores="characterData.abilityScores" />
-
-			<!-- <section class="stat-section">
-				<div class="equipment-info">
-					<h2>Equipment</h2>
-					<div
-						class="ability-score-info-row"
-						v-for="row in equipmentArr"
-						:key="row.itemName">
-						<p>{{ row.itemName }}</p>
-						<p>{{ row.toolTip }}</p>
-					</div>
-				</div>
-			</section> -->
 		</div>
 	</div>
 </template>
@@ -98,11 +85,6 @@
 		padding: 1rem;
 	}
 
-	.edit-btn {
-		position: absolute;
-		right: 0.5rem;
-		top: 0.5rem;
-	}
 	.img-container {
 		background-color: black;
 		width: 100px;
