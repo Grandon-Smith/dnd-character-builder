@@ -29,6 +29,7 @@
 		armorClass: 10,
 		speed: 30,
 		initiative: 2,
+		background: "acolyte",
 		skillProficiencies: [],
 		savingThrowProficiencies: [],
 		inventory: [],
@@ -38,18 +39,6 @@
 	});
 
 	const classData = {
-		wizard: {
-			skillChoices: 2,
-			skills: [
-				"Arcana",
-				"History",
-				"Insight",
-				"Investigation",
-				"Medicine",
-				"Religion",
-			],
-			autoProficiencies: ["Arcana"], // optional
-		},
 		barbarian: {
 			skillChoices: 2,
 			skills: [
@@ -62,8 +51,373 @@
 			],
 			autoProficiencies: [],
 		},
-		// ...
+
+		bard: {
+			skillChoices: 3,
+			skills: [
+				"Acrobatics",
+				"Animal Handling",
+				"Arcana",
+				"Athletics",
+				"Deception",
+				"History",
+				"Insight",
+				"Intimidation",
+				"Investigation",
+				"Medicine",
+				"Nature",
+				"Perception",
+				"Performance",
+				"Persuasion",
+				"Religion",
+				"Sleight of Hand",
+				"Stealth",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		cleric: {
+			skillChoices: 2,
+			skills: [
+				"History",
+				"Insight",
+				"Medicine",
+				"Persuasion",
+				"Religion",
+			],
+			autoProficiencies: [],
+		},
+
+		druid: {
+			skillChoices: 2,
+			skills: [
+				"Arcana",
+				"Animal Handling",
+				"Insight",
+				"Medicine",
+				"Nature",
+				"Perception",
+				"Religion",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		fighter: {
+			skillChoices: 2,
+			skills: [
+				"Acrobatics",
+				"Animal Handling",
+				"Athletics",
+				"History",
+				"Insight",
+				"Intimidation",
+				"Perception",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		monk: {
+			skillChoices: 2,
+			skills: [
+				"Acrobatics",
+				"Athletics",
+				"History",
+				"Insight",
+				"Religion",
+				"Stealth",
+			],
+			autoProficiencies: [],
+		},
+
+		paladin: {
+			skillChoices: 2,
+			skills: [
+				"Athletics",
+				"Insight",
+				"Intimidation",
+				"Medicine",
+				"Persuasion",
+				"Religion",
+			],
+			autoProficiencies: [],
+		},
+
+		ranger: {
+			skillChoices: 3,
+			skills: [
+				"Animal Handling",
+				"Athletics",
+				"Insight",
+				"Investigation",
+				"Nature",
+				"Perception",
+				"Stealth",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		rogue: {
+			skillChoices: 4,
+			skills: [
+				"Acrobatics",
+				"Athletics",
+				"Deception",
+				"Insight",
+				"Intimidation",
+				"Investigation",
+				"Perception",
+				"Performance",
+				"Persuasion",
+				"Sleight of Hand",
+				"Stealth",
+			],
+			autoProficiencies: ["Stealth", "Thieves' Tools"],
+			// Tools will need separate handling
+		},
+
+		sorcerer: {
+			skillChoices: 2,
+			skills: [
+				"Arcana",
+				"Deception",
+				"Insight",
+				"Intimidation",
+				"Persuasion",
+				"Religion",
+			],
+			autoProficiencies: [],
+		},
+
+		warlock: {
+			skillChoices: 2,
+			skills: [
+				"Arcana",
+				"Deception",
+				"History",
+				"Intimidation",
+				"Investigation",
+				"Nature",
+				"Religion",
+			],
+			autoProficiencies: [],
+		},
+
+		wizard: {
+			skillChoices: 2,
+			skills: [
+				"Arcana",
+				"History",
+				"Insight",
+				"Investigation",
+				"Medicine",
+				"Religion",
+			],
+			autoProficiencies: ["Arcana"],
+		},
 	};
+	const backgroundData = {
+		acolyte: {
+			autoProficiencies: ["Insight", "Religion"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		charlatan: {
+			autoProficiencies: ["Deception", "Sleight of Hand"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		criminal: {
+			autoProficiencies: ["Deception", "Stealth"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		entertainer: {
+			autoProficiencies: ["Acrobatics", "Performance"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		folkhero: {
+			autoProficiencies: ["Animal Handling", "Survival"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		guildartisan: {
+			autoProficiencies: ["Insight", "Persuasion"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		hermit: {
+			autoProficiencies: ["Medicine", "Religion"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		noble: {
+			autoProficiencies: ["History", "Persuasion"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		outlander: {
+			autoProficiencies: ["Athletics", "Survival"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		sage: {
+			autoProficiencies: ["Arcana", "History"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		sailor: {
+			autoProficiencies: ["Athletics", "Perception"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		soldier: {
+			autoProficiencies: ["Athletics", "Intimidation"],
+			skillChoices: 0,
+			skills: [],
+		},
+
+		urchin: {
+			autoProficiencies: ["Sleight of Hand", "Stealth"],
+			skillChoices: 0,
+			skills: [],
+		},
+	};
+	const raceData = {
+		human: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [],
+		},
+
+		"variant human": {
+			skillChoices: 1,
+			skills: [
+				"Acrobatics",
+				"Animal Handling",
+				"Arcana",
+				"Athletics",
+				"Deception",
+				"History",
+				"Insight",
+				"Intimidation",
+				"Investigation",
+				"Medicine",
+				"Nature",
+				"Perception",
+				"Performance",
+				"Persuasion",
+				"Religion",
+				"Sleight of Hand",
+				"Stealth",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		elf: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [],
+		},
+
+		"wood elf": {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: ["Perception"], // PHB
+		},
+
+		"high elf": {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [], // no skills
+		},
+
+		dwarf: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [], // no skills
+		},
+
+		halfling: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [],
+		},
+
+		halfelf: {
+			skillChoices: 2,
+			skills: [
+				"Acrobatics",
+				"Animal Handling",
+				"Arcana",
+				"Athletics",
+				"Deception",
+				"History",
+				"Insight",
+				"Intimidation",
+				"Investigation",
+				"Medicine",
+				"Nature",
+				"Perception",
+				"Performance",
+				"Persuasion",
+				"Religion",
+				"Sleight of Hand",
+				"Stealth",
+				"Survival",
+			],
+			autoProficiencies: [],
+		},
+
+		halforc: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: ["Intimidation"], // PHB
+		},
+
+		tiefling: {
+			skillChoices: 0,
+			skills: [],
+			autoProficiencies: [],
+		},
+	};
+
+	const selectedRace = computed(() =>
+		character.value.race.toLowerCase()
+	);
+
+	// Race-based auto skills
+	const raceAutoSkills = computed(() => {
+		const race = raceData[selectedRace.value];
+		return race?.autoProficiencies || [];
+	});
+
+	// Race selectable skills
+	const raceSelectableSkills = computed(() => {
+		const race = raceData[selectedRace.value];
+		return race?.skills || [];
+	});
+
+	const raceSkillChoices = computed(() => {
+		const race = raceData[selectedRace.value];
+		return race?.skillChoices || 0;
+	});
 
 	const racesList = ["elf", "human", "half orc", "dwarf"];
 
@@ -78,42 +432,86 @@
 	const selectedClassNames = computed(() =>
 		character.value.classes.map((c) => c.name)
 	);
+	const selectedBackground = computed(
+		() => character.value.background?.toLowerCase() || ""
+	);
+
+	const backgroundAutoSkills = computed(() => {
+		const bg = backgroundData[selectedBackground.value];
+		return bg?.autoProficiencies || [];
+	});
+
+	const backgroundSelectableSkills = computed(() => {
+		const bg = backgroundData[selectedBackground.value];
+		return bg?.skills || [];
+	});
+
+	const backgroundSkillChoices = computed(() => {
+		const bg = backgroundData[selectedBackground.value];
+		return bg?.skillChoices || 0;
+	});
 
 	const availableSkills = computed(() => {
 		const skills = new Set();
 
+		// Class choose-from
 		selectedClassNames.value.forEach((cls) => {
 			classData[cls]?.skills.forEach((skill) => skills.add(skill));
 		});
 
-		// Remove auto-proficiency skills from the selectable list
+		// Race choose-from
+		raceSelectableSkills.value.forEach((skill) => skills.add(skill));
+
+		// Background choose-from (PHB doesn't use this, but other books do)
+		backgroundSelectableSkills.value.forEach((skill) =>
+			skills.add(skill)
+		);
+
+		// Remove any auto skills
 		autoSkills.value.forEach((auto) => skills.delete(auto));
+		raceAutoSkills.value.forEach((auto) => skills.delete(auto));
+		backgroundAutoSkills.value.forEach((auto) => skills.delete(auto));
 
 		return [...skills];
 	});
 
 	// Total number of skills they are allowed to choose
 	const maxSkillChoices = computed(() => {
-		return selectedClassNames.value.reduce((total, cls) => {
-			return total + (classData[cls]?.skillChoices || 0);
-		}, 0);
+		const classChoices = selectedClassNames.value.reduce(
+			(sum, cls) => sum + (classData[cls]?.skillChoices || 0),
+			0
+		);
+
+		const raceChoices = raceSkillChoices.value;
+		const backgroundChoices = backgroundSkillChoices.value;
+
+		return classChoices + raceChoices + backgroundChoices;
 	});
 
 	// Auto-proficiencies (free)
 	const autoSkills = computed(() => {
-		const auto = new Set();
+		const set = new Set();
+
+		// Class auto
 		selectedClassNames.value.forEach((cls) => {
-			classData[cls]?.autoProficiencies?.forEach((p) => auto.add(p));
+			classData[cls]?.autoProficiencies.forEach((s) => set.add(s));
 		});
-		return [...auto];
+
+		// Race auto
+		raceAutoSkills.value.forEach((s) => set.add(s));
+
+		// Background auto
+		backgroundAutoSkills.value.forEach((s) => set.add(s));
+
+		return [...set];
 	});
 
 	// Combine selected + auto
 	const selectedSkillCount = computed(() => {
-		return (
-			autoSkills.value.length +
-			character.value.skillProficiencies.length
-		);
+		// Only count MANUAL selections
+		return character.value.skillProficiencies.filter(
+			(skill) => !autoSkills.value.includes(skill)
+		).length;
 	});
 
 	// Whether selecting more is allowed or not
@@ -150,17 +548,19 @@
 	});
 
 	watch(
-		autoSkills,
-		(newAuto) => {
+		[autoSkills],
+		() => {
 			const current = character.value.skillProficiencies;
 
-			// Remove any auto-skills the user might have manually selected before filtering
+			// Remove any skill that is now auto
 			const cleaned = current.filter(
-				(skill) => !newAuto.includes(skill)
+				(skill) => !autoSkills.value.includes(skill)
 			);
 
-			// Add auto skills to the beginning (or end)
-			character.value.skillProficiencies = [...newAuto, ...cleaned];
+			character.value.skillProficiencies = [
+				...autoSkills.value,
+				...cleaned,
+			];
 		},
 		{ immediate: true }
 	);
