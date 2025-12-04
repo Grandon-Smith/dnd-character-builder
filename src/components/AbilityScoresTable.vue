@@ -82,39 +82,39 @@
 <style scoped lang="scss">
 	.info-block-container {
 		position: relative;
-	}
 
-	.edit-btn {
-		position: absolute;
-		right: 0.5rem;
-		top: 0.5rem;
-	}
+		.edit-btn {
+			position: absolute;
+			right: 0.5rem;
+			top: 0.5rem;
+		}
+		.ability-table-wrapper {
+			overflow-x: auto;
 
-	.ability-table-wrapper {
-		overflow-x: auto;
+			.ability-table {
+				text-align: center;
+				border-spacing: 0.5rem;
+				min-width: 300px; // or whatever width triggers overflow
+				width: 100%;
 
-		.ability-table {
-			width: 100%;
-			text-align: center;
-			border-spacing: 0.5rem;
+				& td,
+				th {
+					padding: 0.25rem 0.5rem;
+					text-transform: capitalize;
+				}
 
-			& td,
-			th {
-				padding: 0.25rem 0.5rem;
-				text-transform: capitalize;
-			}
+				& td:first-of-type {
+					background-color: #dddddd;
+				}
 
-			& td:first-of-type {
-				background-color: #dddddd;
-			}
+				& td:not(:first-of-type) {
+					background-color: #fff;
+				}
 
-			& td:not(:first-of-type) {
-				background-color: #fff;
-			}
-
-			& tr > td:first-of-type,
-			tr > th:first-of-type {
-				text-align: right;
+				& tr > td:first-of-type,
+				tr > th:first-of-type {
+					text-align: right;
+				}
 			}
 		}
 	}

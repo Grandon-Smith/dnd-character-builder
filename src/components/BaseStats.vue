@@ -39,7 +39,8 @@
 			<div>
 				Proficiency: +{{ calcProficiencyBonus(charData.level) }}
 			</div>
-			Passive Perception: {{ calcPassivePerception }}
+			<div>Passive Perception: {{ calcPassivePerception }}</div>
+			<div>Armor Class: {{ charData.armorClass }}</div>
 		</div>
 	</section>
 </template>

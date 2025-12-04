@@ -57,9 +57,10 @@
 		overflow-x: auto;
 
 		.skills-table {
-			width: 100%;
 			text-align: center;
 			border-spacing: 0.5rem;
+			min-width: 300px; // or whatever width triggers overflow
+			width: 100%;
 
 			& td,
 			th {

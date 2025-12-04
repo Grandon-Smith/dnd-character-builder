@@ -7,6 +7,7 @@
 	import AbilityScoresTable from "../components/AbilityScoresTable.vue";
 	import SkillsTable from "../components/SkillsTable.vue";
 	import BaseStats from "../components/BaseStats.vue";
+	import HealthBar from "../components/HealthBar.vue";
 
 	const store = useStore();
 	const route = useRoute();
@@ -37,21 +38,21 @@
 		v-if="characterData">
 		<NavHeader :headerText="characterData.name" />
 		<div class="stats-sections-container">
-			<section class="stat-section health">
+			<section class="heading-section">
 				<div class="img-container"></div>
-				<h3>Level: {{ characterData.level }}</h3>
-				<h3>Armor Class: {{ characterData.armorClass }}</h3>
-				<h3>Add inspiration up here. btn to add it?</h3>
-				<h3>Health</h3>
-				<p>
-					HP:
-					{{ characterData.currentHealth }}/
-					{{ characterData.maxHealth }}
-				</p>
-				<div class="full-health-bar">
-					<div class="current-health-bar"></div>
+				<div>
+					<h3>Class: {{ characterData.classes[0].name }}</h3>
+					<h3>Level: {{ characterData.level }}</h3>
+					<h3>
+						Background: {{ characterData.background || "acolyte" }}
+					</h3>
+					<h3>Add inspiration up here. btn to add it?</h3>
 				</div>
 			</section>
+			<HealthBar
+				:currentHP="characterData.hitPoints.current"
+				:maxHP="characterData.hitPoints.max"
+				:tempHP="characterData.hitPoints.temporary" />
 			<BaseStats :charData="characterData" />
 			<AbilityScoresTable
 				infoHeader="Ability Scores"
@@ -67,7 +68,7 @@
 	</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 	.character-sheet-container {
 		background-image: url("../assets/login-bg.jpg");
 		background-size: cover;
@@ -78,42 +79,38 @@
 		display: grid;
 		grid-template-columns: 1fr;
 		padding: 0.5rem 0.25rem;
+
+		& > * {
+			min-width: 0;
+			margin-bottom: 1.5rem;
+		}
+
+		.heading-section {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			.img-container {
+				background-color: black;
+				width: clamp(5rem, 40%, 12rem);
+				aspect-ratio: 1/1;
+				margin: 1.5rem auto;
+			}
+		}
 	}
 
-	.health {
-		border: 1px solid blue;
-		padding: 1rem;
-	}
-
-	.img-container {
-		background-color: black;
-		width: 100px;
-		aspect-ratio: 1/1;
-	}
-
-	.full-health-bar {
-		background-color: rgb(132, 0, 0);
-		position: relative;
-		height: 20px;
-	}
-
-	.current-health-bar {
-		background-color: rgb(255, 64, 64);
-		height: 100%;
-		position: absolute;
-		width: 60%;
-		left: 0;
-		bottom: 0;
-	}
-
-	.ability-score-info-row {
-		display: flex;
-	}
-
-	.ability-score-container {
-		border: 1px solid black;
-		margin-bottom: 1rem;
-	}
 	@media only screen and (min-width: 600px) {
+		.stats-sections-container {
+			.heading-section {
+				flex-direction: row;
+				gap: 1rem;
+
+				padding: 0.5rem;
+
+				.img-container {
+					margin: 0;
+				}
+			}
+		}
 	}
 </style>
