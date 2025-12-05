@@ -4,10 +4,11 @@
 	import { useRoute } from "vue-router";
 	import { characterServices } from "../services/characters";
 	import NavHeader from "../components/NavHeader.vue";
+	import HealthBar from "../components/HealthBar.vue";
+	import BaseStats from "../components/BaseStats.vue";
 	import AbilityScoresTable from "../components/AbilityScoresTable.vue";
 	import SkillsTable from "../components/SkillsTable.vue";
-	import BaseStats from "../components/BaseStats.vue";
-	import HealthBar from "../components/HealthBar.vue";
+	import EquipmentList from "../components/EquipmentList.vue";
 
 	const store = useStore();
 	const route = useRoute();
@@ -64,6 +65,7 @@
 				:characterLevel="characterData.level"
 				:skillProfs="characterData.skillProficiencies"
 				:abilityScores="characterData.abilityScores" />
+			<EquipmentList />
 		</div>
 	</div>
 </template>
