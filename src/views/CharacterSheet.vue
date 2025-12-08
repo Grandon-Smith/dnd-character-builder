@@ -8,6 +8,7 @@
 	import BaseStats from "../components/BaseStats.vue";
 	import AbilityScoresTable from "../components/AbilityScoresTable.vue";
 	import SkillsTable from "../components/SkillsTable.vue";
+	import AttacksTable from "../components/AttacksTable.vue";
 	import EquipmentList from "../components/EquipmentList.vue";
 
 	const store = useStore();
@@ -66,6 +67,7 @@
 				:skillProfs="characterData.skillProficiencies"
 				:abilityScores="characterData.abilityScores" />
 			<EquipmentList />
+			<AttacksTable />
 		</div>
 	</div>
 </template>
