@@ -6,64 +6,69 @@ import CharacterSheet from "../views/CharacterSheet.vue";
 import Home from "../views/Home.vue";
 
 const isAuthenticated = () => {
-	return !!localStorage.getItem("token");
+  return !!localStorage.getItem("token");
 };
 
 const publicRoutes = ["/", "/login", "/create-account"];
 
 const routes = [
-	{
-		path: "/login",
-		name: "Login",
-		component: LoginAndNewUser,
-	},
-	{
-		path: "/create-account",
-		name: "Create Account",
-		component: LoginAndNewUser,
-	},
-	{
-		path: "/add-character",
-		name: "New Character",
-		component: NewCharacter,
-	},
-	{
-		path: "/character-sheet/:id",
-		name: "Character Sheet",
-		component: CharacterSheet,
-	},
-	{
-		path: "/choose-character",
-		name: "Choose Character",
-		component: ChooseCharacter,
-	},
-	// {
-	// 	path: "/add-member",
-	// 	name: "Choose Character",
-	// 	component: ChooseCharacter,
-	// },
-	{
-		path: "/",
-		name: "Home",
-		component: Home,
-	},
+  {
+    path: "/login",
+    name: "Login",
+    component: LoginAndNewUser,
+  },
+  {
+    path: "/create-account",
+    name: "Create Account",
+    component: LoginAndNewUser,
+  },
+  {
+    path: "/add-character",
+    name: "New Character",
+    component: NewCharacter,
+  },
+  {
+    path: "/character-sheet/:id",
+    name: "Character Sheet",
+    component: CharacterSheet,
+  },
+  {
+    path: "/choose-character",
+    name: "Choose Character",
+    component: ChooseCharacter,
+  },
+  // {
+  // 	path: "/add-member",
+  // 	name: "Choose Character",
+  // 	component: ChooseCharacter,
+  // },
+  {
+    path: "/test",
+    name: "Test",
+    component: () => import("../views/Test.vue"),
+  },
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
 ];
 
 const router = createRouter({
-	history: createWebHistory(),
-	routes,
+  history: createWebHistory(),
+  routes,
 });
 
 // global route auth guard
 router.beforeEach((to, from, next) => {
-	console.log("router beforeEach: ", isAuthenticated());
-	if (!publicRoutes.includes(to.path) && !isAuthenticated()) {
-		// force user to /login, change this if needed
-		next("/login");
-	} else {
-		// user is authenticated or route is public
-		next();
-	}
+  console.log("router beforeEach: ", isAuthenticated());
+  if (!publicRoutes.includes(to.path) && !isAuthenticated()) {
+    // force user to /login, change this if needed
+    next("/login");
+  } else {
+    // user is authenticated or route is public
+    next();
+  }
 });
 
 export default router;
