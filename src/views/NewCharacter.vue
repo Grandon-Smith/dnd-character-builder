@@ -4,12 +4,66 @@ import { useStore } from "../store";
 import NavHeader from "../components/NavHeader.vue";
 import { useRouter } from "vue-router";
 import { characterServices } from "../services/characters";
-
+import { classData } from "../data/classData";
+import { backgroundData } from "../data/backgroundData";
+import { raceData } from "../data/raceData";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemHeader,
+  ItemTitle,
+  ItemActions,
+  ItemMedia,
+  ItemGroup,
+  ItemSeparator,
+} from "@/components/ui/item";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+} from "@/components/ui/button-group";
+import {
+  PhIdentificationCard,
+  PhFlag,
+  PhSword,
+  PhTrash,
+  PhUserPlus,
+} from "@phosphor-icons/vue";
 const store = useStore();
 const router = useRouter();
 
 const character = ref({
-  name: "test Name",
+  name: "Legolas Greenleaf",
   race: "elf",
   classes: [{ name: "wizard", level: 1 }],
   level: 1,
@@ -38,359 +92,8 @@ const character = ref({
   player: "",
 });
 
-const classData = {
-  barbarian: {
-    skillChoices: 2,
-    skills: [
-      "Animal Handling",
-      "Athletics",
-      "Intimidation",
-      "Nature",
-      "Perception",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  bard: {
-    skillChoices: 3,
-    skills: [
-      "Acrobatics",
-      "Animal Handling",
-      "Arcana",
-      "Athletics",
-      "Deception",
-      "History",
-      "Insight",
-      "Intimidation",
-      "Investigation",
-      "Medicine",
-      "Nature",
-      "Perception",
-      "Performance",
-      "Persuasion",
-      "Religion",
-      "Sleight of Hand",
-      "Stealth",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  cleric: {
-    skillChoices: 2,
-    skills: ["History", "Insight", "Medicine", "Persuasion", "Religion"],
-    autoProficiencies: [],
-  },
-
-  druid: {
-    skillChoices: 2,
-    skills: [
-      "Arcana",
-      "Animal Handling",
-      "Insight",
-      "Medicine",
-      "Nature",
-      "Perception",
-      "Religion",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  fighter: {
-    skillChoices: 2,
-    skills: [
-      "Acrobatics",
-      "Animal Handling",
-      "Athletics",
-      "History",
-      "Insight",
-      "Intimidation",
-      "Perception",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  monk: {
-    skillChoices: 2,
-    skills: [
-      "Acrobatics",
-      "Athletics",
-      "History",
-      "Insight",
-      "Religion",
-      "Stealth",
-    ],
-    autoProficiencies: [],
-  },
-
-  paladin: {
-    skillChoices: 2,
-    skills: [
-      "Athletics",
-      "Insight",
-      "Intimidation",
-      "Medicine",
-      "Persuasion",
-      "Religion",
-    ],
-    autoProficiencies: [],
-  },
-
-  ranger: {
-    skillChoices: 3,
-    skills: [
-      "Animal Handling",
-      "Athletics",
-      "Insight",
-      "Investigation",
-      "Nature",
-      "Perception",
-      "Stealth",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  rogue: {
-    skillChoices: 4,
-    skills: [
-      "Acrobatics",
-      "Athletics",
-      "Deception",
-      "Insight",
-      "Intimidation",
-      "Investigation",
-      "Perception",
-      "Performance",
-      "Persuasion",
-      "Sleight of Hand",
-      "Stealth",
-    ],
-    autoProficiencies: ["Stealth", "Thieves' Tools"],
-    // Tools will need separate handling
-  },
-
-  sorcerer: {
-    skillChoices: 2,
-    skills: [
-      "Arcana",
-      "Deception",
-      "Insight",
-      "Intimidation",
-      "Persuasion",
-      "Religion",
-    ],
-    autoProficiencies: [],
-  },
-
-  warlock: {
-    skillChoices: 2,
-    skills: [
-      "Arcana",
-      "Deception",
-      "History",
-      "Intimidation",
-      "Investigation",
-      "Nature",
-      "Religion",
-    ],
-    autoProficiencies: [],
-  },
-
-  wizard: {
-    skillChoices: 2,
-    skills: [
-      "Arcana",
-      "History",
-      "Insight",
-      "Investigation",
-      "Medicine",
-      "Religion",
-    ],
-    autoProficiencies: ["Arcana"],
-  },
-};
-const backgroundData = {
-  acolyte: {
-    autoProficiencies: ["Insight", "Religion"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  charlatan: {
-    autoProficiencies: ["Deception", "Sleight of Hand"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  criminal: {
-    autoProficiencies: ["Deception", "Stealth"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  entertainer: {
-    autoProficiencies: ["Acrobatics", "Performance"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  folkhero: {
-    autoProficiencies: ["Animal Handling", "Survival"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  guildartisan: {
-    autoProficiencies: ["Insight", "Persuasion"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  hermit: {
-    autoProficiencies: ["Medicine", "Religion"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  noble: {
-    autoProficiencies: ["History", "Persuasion"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  outlander: {
-    autoProficiencies: ["Athletics", "Survival"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  sage: {
-    autoProficiencies: ["Arcana", "History"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  sailor: {
-    autoProficiencies: ["Athletics", "Perception"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  soldier: {
-    autoProficiencies: ["Athletics", "Intimidation"],
-    skillChoices: 0,
-    skills: [],
-  },
-
-  urchin: {
-    autoProficiencies: ["Sleight of Hand", "Stealth"],
-    skillChoices: 0,
-    skills: [],
-  },
-};
-const raceData = {
-  human: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [],
-  },
-
-  "variant human": {
-    skillChoices: 1,
-    skills: [
-      "Acrobatics",
-      "Animal Handling",
-      "Arcana",
-      "Athletics",
-      "Deception",
-      "History",
-      "Insight",
-      "Intimidation",
-      "Investigation",
-      "Medicine",
-      "Nature",
-      "Perception",
-      "Performance",
-      "Persuasion",
-      "Religion",
-      "Sleight of Hand",
-      "Stealth",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  elf: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [],
-  },
-
-  "wood elf": {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: ["Perception"], // PHB
-  },
-
-  "high elf": {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [], // no skills
-  },
-
-  dwarf: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [], // no skills
-  },
-
-  halfling: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [],
-  },
-
-  halfelf: {
-    skillChoices: 2,
-    skills: [
-      "Acrobatics",
-      "Animal Handling",
-      "Arcana",
-      "Athletics",
-      "Deception",
-      "History",
-      "Insight",
-      "Intimidation",
-      "Investigation",
-      "Medicine",
-      "Nature",
-      "Perception",
-      "Performance",
-      "Persuasion",
-      "Religion",
-      "Sleight of Hand",
-      "Stealth",
-      "Survival",
-    ],
-    autoProficiencies: [],
-  },
-
-  halforc: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: ["Intimidation"], // PHB
-  },
-
-  tiefling: {
-    skillChoices: 0,
-    skills: [],
-    autoProficiencies: [],
-  },
-};
+const newClassLevel = ref(1);
+const newClassName = ref("");
 
 const selectedRace = computed(() => character.value.race.toLowerCase());
 
@@ -411,10 +114,15 @@ const raceSkillChoices = computed(() => {
   return race?.skillChoices || 0;
 });
 
-const racesList = ["elf", "human", "half orc", "dwarf"];
+const racesList = Object.keys(raceData);
 
 const addClass = () => {
-  character.value.classes.push({ name: "", level: 1 });
+  character.value.classes.push({
+    name: newClassName.value,
+    level: newClassLevel.value,
+  });
+  newClassName.value = "";
+  newClassLevel.value = 1;
 };
 
 const removeClass = (index) => {
@@ -422,10 +130,10 @@ const removeClass = (index) => {
 };
 
 const selectedClassNames = computed(() =>
-  character.value.classes.map((c) => c.name)
+  character.value.classes.map((c) => c.name),
 );
 const selectedBackground = computed(
-  () => character.value.background?.toLowerCase() || ""
+  () => character.value.background?.toLowerCase() || "",
 );
 
 const backgroundAutoSkills = computed(() => {
@@ -469,7 +177,7 @@ const availableSkills = computed(() => {
 const maxSkillChoices = computed(() => {
   const classChoices = selectedClassNames.value.reduce(
     (sum, cls) => sum + (classData[cls]?.skillChoices || 0),
-    0
+    0,
   );
 
   const raceChoices = raceSkillChoices.value;
@@ -500,13 +208,13 @@ const autoSkills = computed(() => {
 const selectedSkillCount = computed(() => {
   // Only count MANUAL selections
   return character.value.skillProficiencies.filter(
-    (skill) => !autoSkills.value.includes(skill)
+    (skill) => !autoSkills.value.includes(skill),
   ).length;
 });
 
 // Whether selecting more is allowed or not
 const disableUnselected = computed(
-  () => selectedSkillCount.value >= maxSkillChoices.value
+  () => selectedSkillCount.value >= maxSkillChoices.value,
 );
 
 async function submitCharacter() {
@@ -515,7 +223,7 @@ async function submitCharacter() {
     // router.push("/choose-character");
     character.value.level = character.value.classes.reduce(
       (sum, c) => sum + c.level,
-      0
+      0,
     );
 
     const options = {
@@ -534,7 +242,7 @@ async function submitCharacter() {
 watch(availableSkills, (newList) => {
   character.value.skillProficiencies =
     character.value.skillProficiencies.filter((skill) =>
-      newList.includes(skill)
+      newList.includes(skill),
     );
 });
 
@@ -545,154 +253,379 @@ watch(
 
     // Remove any skill that is now auto
     const cleaned = current.filter(
-      (skill) => !autoSkills.value.includes(skill)
+      (skill) => !autoSkills.value.includes(skill),
     );
 
     character.value.skillProficiencies = [...autoSkills.value, ...cleaned];
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
 <template>
-  <div>
+  <div class="character-form max-w-4xl mx-auto p-8">
     <NavHeader headerText="Create Your Character" />
-    <form @submit.prevent="submitCharacter">
-      <!-- Character Name -->
-      <label for="name">Character Name</label>
-      <input id="name" v-model="character.name" required maxlength="50" />
+    <form @submit.prevent="submitCharacter" class="form-container">
+      <!-- Basic Information -->
+      <Card class="w-full mb-6">
+        <CardHeader>
+          <CardTitle class="text-2xl font-black"> Basic Information </CardTitle>
+          <CardDescription class="scripty">
+            Enter your character's basic information
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ItemGroup class="gap-4">
+            <Item>
+              <ItemMedia variant="icon">
+                <PhIdentificationCard />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle class="fonty font-extrabold"
+                  >Character Name</ItemTitle
+                >
+                <ItemDescription class="scripty"
+                  >Enter your character's name</ItemDescription
+                >
+              </ItemContent>
+              <ItemActions>
+                <Input
+                  id="name"
+                  v-model="character.name"
+                  required
+                  maxlength="50"
+                  class="w-full max-w-[250px] fonty"
+                />
+              </ItemActions>
+            </Item>
+            <ItemSeparator />
+            <Item>
+              <ItemMedia variant="icon">
+                <PhFlag />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle class="fonty font-extrabold">Race</ItemTitle>
+                <ItemDescription class="scripty"
+                  >Choose your character's race</ItemDescription
+                >
+              </ItemContent>
+              <ItemActions>
+                <Select id="race" v-model="character.race" required>
+                  <SelectTrigger class="fonty">
+                    <SelectValue placeholder="Select a race" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem
+                      class="fonty"
+                      v-for="race in racesList"
+                      :value="race"
+                      :key="race"
+                    >
+                      {{ race.slice(0, 1).toUpperCase() + race.slice(1) }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </ItemActions>
+            </Item>
+            <ItemSeparator />
+            <Item>
+              <ItemMedia variant="icon">
+                <PhSword />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle class="fonty font-extrabold">Background</ItemTitle>
+                <ItemDescription class="scripty"
+                  >Choose your character's background</ItemDescription
+                >
+              </ItemContent>
+              <ItemActions>
+                <Select id="background" v-model="character.background" required>
+                  <SelectTrigger class="fonty">
+                    <SelectValue placeholder="Select a background" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem
+                      class="fonty"
+                      v-for="bg in Object.keys(backgroundData)"
+                      :value="bg"
+                      :key="bg"
+                    >
+                      {{ bg.slice(0, 1).toUpperCase() + bg.slice(1) }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </ItemActions>
+            </Item>
+          </ItemGroup>
+        </CardContent>
+      </Card>
 
-      <!-- Race -->
-      <label for="race">Race</label>
-      <select id="race" v-model="character.race" required>
-        <option v-for="race in racesList" :value="race" :key="race">
-          {{ race }}
-        </option>
-      </select>
-
-      <!-- Multiclass -->
-      <fieldset>
-        <legend>Classes</legend>
-        <div v-for="(cls, index) in character.classes" :key="index">
-          <label :for="'class-name-' + index">Class Name</label>
-          <select :id="'class-name-' + index" v-model="cls.name" required>
-            <option
-              v-for="charClass in store.classesList"
-              :key="charClass"
-              :value="charClass"
+      <Card class="w-full mb-6">
+        <CardHeader>
+          <CardTitle class="text-2xl font-black"> Classes </CardTitle>
+          <CardDescription class="scripty">
+            Select your character's classes
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ItemGroup class="flex-row flex-wrap gap-2">
+            <Item
+              v-for="(cls, index) in character.classes"
+              :key="index"
+              class="max-w-sm min-w-sm"
             >
-              {{ charClass }}
-            </option>
-          </select>
+              <ItemContent>
+                <ItemTitle class="fonty">{{
+                  cls.name.slice(0, 1).toUpperCase() + cls.name.slice(1)
+                }}</ItemTitle>
+                <ItemDescription class="scripty"
+                  >Level {{ cls.level }}</ItemDescription
+                >
+              </ItemContent>
+              <ItemActions>
+                <Button variant="destructive" @click="removeClass(index)">
+                  <PhTrash />
+                </Button>
+              </ItemActions>
+            </Item>
+          </ItemGroup>
+          <ItemSeparator class="my-4" />
+          <div class="class-entry">
+            <div
+              class="class-inputs-row align-center flex flex-row gap-2 flex-basis-1/2"
+            >
+              <div class="form-group grid gap-1.5 mb-4">
+                <Label for="class-name">Class Name</Label>
+                <Select id="class-name" v-model="newClassName" required>
+                  <SelectTrigger class="min-w-sm fonty">
+                    <SelectValue placeholder="Select a class" />
+                  </SelectTrigger>
+                  <SelectContent class="fonty">
+                    <SelectItem
+                      class="fonty"
+                      v-for="charClass in store.classesList"
+                      :value="charClass"
+                      :key="charClass"
+                    >
+                      {{
+                        charClass.slice(0, 1).toUpperCase() + charClass.slice(1)
+                      }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <label :for="'class-level-' + index">Class Level</label>
-          <input
-            :id="'class-level-' + index"
-            v-model.number="cls.level"
-            type="number"
-            min="1"
-            required
-          />
+              <div class="form-group">
+                <NumberField id="class-level" :model-value="newClassLevel">
+                  <Label for="class-level">Class Level</Label>
+                  <NumberFieldContent>
+                    <NumberFieldDecrement />
+                    <NumberFieldInput />
+                    <NumberFieldIncrement />
+                  </NumberFieldContent>
+                </NumberField>
+              </div>
+            </div>
+          </div>
 
-          <button
-            :disabled="store.fetchingData"
-            class="btn-1"
-            type="button"
-            @click="removeClass(index)"
+          <ButtonGroup>
+            <Button
+              :disabled="store.fetchingData"
+              type="button"
+              @click="addClass"
+              class="font-bold"
+            >
+              Add Class
+            </Button>
+            <Button
+              :disabled="store.fetchingData"
+              variant="outline"
+              type="button"
+              @click="removeClass(index)"
+              class="font-bold"
+            >
+              Remove Class
+            </Button>
+          </ButtonGroup>
+        </CardContent>
+      </Card>
+
+      <!-- Ability Scores -->
+      <Card class="mb-6">
+        <CardHeader>
+          <CardTitle class="text-2xl font-black">Ability Scores</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ItemGroup
+            class="ability-scores-grid grid md:grid-cols-2 lg:grid-cols-3"
           >
-            Remove
-          </button>
-        </div>
-        <button
-          :disabled="store.fetchingData"
-          class="btn-1"
-          type="button"
-          @click="addClass"
-        >
-          Add Class
-        </button>
-      </fieldset>
+            <Item
+              v-for="(value, stat) in character.abilityScores"
+              :key="stat"
+              class="ability-score-item"
+            >
+              <NumberField
+                :id="stat"
+                :default-value="18"
+                v-model="character.abilityScores[stat]"
+                :min="0"
+              >
+                <Label class="text-lg font-bold" :for="stat">{{
+                  stat.charAt(0).toUpperCase() + stat.slice(1)
+                }}</Label>
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput class="fonty" />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+            </Item>
+          </ItemGroup>
+        </CardContent>
+      </Card>
 
-      <!-- Stats -->
-      <fieldset>
-        <legend>Ability Scores</legend>
-        <div v-for="(value, stat) in character.abilityScores" :key="stat">
-          <label :for="stat">{{
-            stat.charAt(0).toUpperCase() + stat.slice(1)
-          }}</label>
-          <input
-            :id="stat"
-            v-model.number="character.abilityScores[stat]"
-            type="number"
-            required
-          />
-        </div>
-      </fieldset>
+      <!-- Combat Stats -->
+      <Card class="mb-6">
+        <CardHeader>
+          <CardTitle class="text-2xl font-black">Combat Statistics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ItemGroup
+            class="combat-stats-grid grid sm:grid-cols-2 lg:grid-cols-4"
+          >
+            <Item class="form-group">
+              <NumberField
+                id="hp-max"
+                :default-value="10"
+                v-model="character.hitPoints.max"
+                :min="0"
+              >
+                <Label class="text-lg font-bold" for="hp-max">Max HP</Label>
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+            </Item>
 
-      <!-- Hit Points -->
-      <fieldset>
-        <legend>Hit Points</legend>
-        <label for="hp-max">Max HP</label>
-        <input
-          id="hp-max"
-          v-model.number="character.hitPoints.max"
-          type="number"
-          required
-        />
-      </fieldset>
+            <Item class="form-group">
+              <NumberField
+                id="armor-class"
+                :default-value="10"
+                v-model="character.armorClass"
+                :min="0"
+              >
+                <Label class="text-lg font-bold" for="armor-class"
+                  >Armor Class</Label
+                >
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+            </Item>
+
+            <Item class="form-group">
+              <NumberField
+                id="speed"
+                :default-value="30"
+                v-model="character.speed"
+                :min="0"
+              >
+                <Label class="text-lg font-bold" for="speed">Speed</Label>
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+            </Item>
+
+            <Item class="form-group">
+              <NumberField
+                id="initiative"
+                :default-value="0"
+                v-model="character.initiative"
+                :min="-100"
+                :max="100"
+              >
+                <Label class="text-lg font-bold" for="initiative"
+                  >Initiative</Label
+                >
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+            </Item>
+          </ItemGroup>
+        </CardContent>
+      </Card>
+
       <!-- Skill Proficiencies -->
-      <fieldset>
-        <legend>Skill Proficiencies</legend>
+      <Card class="mb-6">
+        <CardHeader>
+          <CardTitle class="text-2xl font-black">Skill Proficiencies</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="skill-info">
+            <p>
+              Choose up to <strong>{{ maxSkillChoices }}</strong> skills
+              <span class="skill-count"
+                >({{ selectedSkillCount }}/{{ maxSkillChoices }} selected)</span
+              >
+            </p>
+          </div>
 
-        <p>
-          Choose {{ maxSkillChoices }} skills
-          <strong>{{ selectedSkillCount }}/{{ maxSkillChoices }}</strong>
-          selected
-        </p>
+          <!-- Auto-granted skills -->
+          <div v-if="autoSkills.length" class="auto-skills">
+            <h3>Automatic Proficiencies</h3>
+            <ul>
+              <li v-for="skill in autoSkills" :key="'auto-' + skill">
+                ✔ {{ skill }}
+              </li>
+            </ul>
+          </div>
 
-        <!-- Auto-granted skills -->
-        <div v-if="autoSkills.length">
-          <p><strong>Automatic Proficiencies:</strong></p>
-          <ul>
-            <li v-for="skill in autoSkills" :key="'auto-' + skill">
-              ✔ {{ skill }} (granted by class)
-            </li>
-          </ul>
-        </div>
-
-        <!-- User-selectable skills -->
-        <div
-          v-for="skill in availableSkills"
-          :key="skill"
-          style="margin-bottom: 6px"
-        >
-          <label>
-            <input
-              type="checkbox"
-              :value="skill"
-              v-model="character.skillProficiencies"
-              :disabled="
-                disableUnselected &&
-                !character.skillProficiencies.includes(skill)
-              "
-            />
-            {{ skill }}
-          </label>
-        </div>
-      </fieldset>
+          <!-- User-selectable skills -->
+          <div class="selectable-skills">
+            <h3>Select Additional Skills</h3>
+            <div class="skills-grid">
+              <Label
+                v-for="skill in availableSkills"
+                :key="skill"
+                class="skill-checkbox"
+              >
+                <Checkbox
+                  :value="skill"
+                  v-model="character.skillProficiencies"
+                  :disabled="
+                    disableUnselected &&
+                    !character.skillProficiencies.includes(skill)
+                  "
+                />
+                <span>{{ skill }}</span>
+              </Label>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <!-- Submit -->
-      <button :disabled="store.fetchingData" type="submit" class="btn-1">
-        Create Character
-      </button>
+      <div class="form-actions">
+        <Button
+          size="lg"
+          :disabled="store.fetchingData"
+          type="submit"
+          class="btn-1 btn-submit w-full cursor-pointer"
+        >
+          <PhUserPlus />
+          Create Character
+        </Button>
+      </div>
     </form>
   </div>
 </template>
-
-<style lang="scss">
-input,
-select {
-  padding: 0.25rem;
-  margin: 0.5rem;
-}
-</style>

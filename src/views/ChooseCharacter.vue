@@ -1,7 +1,5 @@
 <script setup>
-import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
-import NavHeader from "../components/NavHeader.vue";
-import { characterServices } from "../services/characters";
+import { Button } from "@/components/ui/button";
 import { useStore } from "../store";
 import { onBeforeMount } from "vue";
 
@@ -15,69 +13,56 @@ onBeforeMount(() => {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     };
-    characterServices.getAllCharactersForUser(options);
+    // characterServices.getAllCharactersForUser(options);
   }
 });
 </script>
 
 <template>
-  <div class="choose-character-container">
-    <NavHeader :headerText="'Choose Character'" />
-    <button @click="store.logout()">LOGOUT</button>
-    <p><button @click="store.fetchProfile()">GET PROFILE</button></p>
-    <p>
-      <router-link to="/login">go login</router-link>
-    </p>
-    <router-link to="/">go home</router-link>
-    <section
-      v-if="store.userData.characters.length"
-      role="region"
-      class="characters-container"
-    >
-      <ChooseCharacterCard
-        v-for="(character, i) in store.userData.characters"
-        :characterObj="character"
-        :cardIndex="i"
-        :key="i"
-      />
-    </section>
-    <p v-if="!store.userData.characters.length" class="no-character-warn">
-      Looks like you don't have a character yet. Lets change that!
-    </p>
-    <router-link to="/add-character"
-      ><button class="new-char-btn btn-1">
-        Create a new character!
-      </button></router-link
-    >
+  <div
+    class="choose-character-container flex flex-col items-center justify-center min-h-screen"
+  >
+    <div class="text-center space-y-6 p-8 rounded-lg">
+      <h1 class="text-4xl font-bold mb-4">Character Selection</h1>
+
+      <div v-if="!store.userData.characters.length" class="space-y-4">
+        <p class="text-lg">
+          Looks like you don't have a character yet. Let's change that!
+        </p>
+
+        <Button size="lg" class="text-lg px-8 py-3">
+          <router-link to="/add-character" class="flex items-center gap-2">
+            Create a new character!
+          </router-link>
+        </Button>
+      </div>
+
+      <div v-else class="">
+        <!-- Character cards would go here when characters exist -->
+        <p>Characters will be displayed here</p>
+      </div>
+
+      <div class="flex gap-4 mt-8">
+        <Button
+          variant="outline"
+          class="border-white hover:bg-white hover:text-black"
+        >
+          <router-link to="/">Home</router-link>
+        </Button>
+        <Button
+          variant="outline"
+          class="border-white hover:bg-white hover:text-black"
+          @click="store.logout()"
+        >
+          Logout
+        </Button>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .choose-character-container {
   background-image: url("../assets/login-bg.jpg");
-  background-size: cover;
-  height: 100%;
-}
-
-.characters-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.no-character-warn {
-  padding: 1rem;
-}
-
-.new-char-btn {
-  margin: 1.5rem auto;
-}
-
-@media only screen and (min-width: 600px) {
-  .characters-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
 }
 </style>
