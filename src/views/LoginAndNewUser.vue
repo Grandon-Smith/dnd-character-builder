@@ -158,7 +158,7 @@
 				v-on:emitTextInput="
 					(e) => setTextInputValue('passwordInput', e)
 				" />
-			<p v-if="store.errorMsg.length">
+			<p v-if="store.errorMsg && store.errorMsg.length">
 				{{ store.errorMsg }}
 			</p>
 			<button
