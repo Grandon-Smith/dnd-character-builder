@@ -9,7 +9,6 @@ export const useStore = defineStore("appStore", {
     selectedCharacter: null,
     appKey: 0,
     errorMsg: "",
-    user: {},
     skillsList: {
       acrobatics: "dexterity",
       animalHandling: "wisdom",

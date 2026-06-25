@@ -1,11 +1,14 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useStore } from "../store/appStore.js";
+import { useCharacterStore } from "../store/characterStore.js";
 import NavHeader from "../components/NavHeader.vue";
 import { useRouter } from "vue-router";
 import { characterServices } from "../services/characters";
 
 const store = useStore();
+const characterStore = useCharacterStore();
+
 const router = useRouter();
 
 const character = ref({
@@ -511,8 +514,6 @@ const disableUnselected = computed(
 
 async function submitCharacter() {
   try {
-    // await store.saveNewCharacterLocally(character.value);
-    // router.push("/choose-character");
     character.value.level = character.value.classes.reduce(
       (sum, c) => sum + c.level,
       0,
@@ -524,8 +525,9 @@ async function submitCharacter() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(character.value),
     };
-
-    characterServices.createNewCharacter(options);
+    const newCharacter = await characterStore.createNewCharacter(options);
+    await characterStore.getAllCharacters();
+    router.push("/choose-character");
   } catch (error) {
     console.error(error);
     alert("Error creating character");

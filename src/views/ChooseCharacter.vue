@@ -1,21 +1,14 @@
 <script setup>
 import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
 import NavHeader from "../components/NavHeader.vue";
-import { characterServices } from "../services/characters";
-import { useStore } from "../store/appStore.js";
+import { useCharacterStore } from "../store/characterStore.js";
 import { onBeforeMount } from "vue";
 
-const store = useStore();
+const characterStore = useCharacterStore();
 
 onBeforeMount(() => {
-  console.log("choose char mount", store);
-  if (!store.characters.length) {
-    const options = {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    };
-    characterServices.getAllCharactersForUser(options);
+  if (!characterStore.characters.length) {
+    characterStore.getAllCharacters();
   }
 });
 </script>
@@ -28,18 +21,18 @@ onBeforeMount(() => {
     </p>
     <router-link to="/">go home</router-link>
     <section
-      v-if="store.characters.length"
+      v-if="characterStore.characters.length"
       role="region"
       class="characters-container"
     >
       <ChooseCharacterCard
-        v-for="(character, i) in store.characters"
+        v-for="(character, i) in characterStore.characters"
         :characterObj="character"
         :cardIndex="i"
         :key="i"
       />
     </section>
-    <p v-if="!store.characters.length" class="no-character-warn">
+    <p v-if="!characterStore.characters.length" class="no-character-warn">
       Looks like you don't have a character yet. Lets change that!
     </p>
     <router-link to="/add-character"
