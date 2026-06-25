@@ -1,47 +1,52 @@
 import { createWebHistory, createRouter } from "vue-router";
-import LoginAndNewUser from "../views/LoginAndNewUser.vue";
+import { useAuthStore } from "../store/authStore.js";
+import LoginAndCreateAcct from "../views/LoginAndCreateAcct.vue";
 import ChooseCharacter from "../views/ChooseCharacter.vue";
 import NewCharacter from "../views/NewCharacter.vue";
 import CharacterSheet from "../views/CharacterSheet.vue";
 import Home from "../views/Home.vue";
 
-const isAuthenticated = () => {
-  return !!localStorage.getItem("token");
-};
-
-const publicRoutes = ["/", "/login", "/create-account"];
-
 const routes = [
   {
     path: "/login",
     name: "Login",
-    component: LoginAndNewUser,
+    component: LoginAndCreateAcct,
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
     path: "/create-account",
     name: "Create Account",
-    component: LoginAndNewUser,
+    component: LoginAndCreateAcct,
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
     path: "/add-character",
     name: "New Character",
     component: NewCharacter,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/character-sheet/:id",
     name: "Character Sheet",
     component: CharacterSheet,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/choose-character",
     name: "Choose Character",
     component: ChooseCharacter,
+    meta: {
+      requiresAuth: true,
+    },
   },
-  // {
-  // 	path: "/add-member",
-  // 	name: "Choose Character",
-  // 	component: ChooseCharacter,
-  // },
   {
     path: "/test",
     name: "Test",
@@ -51,6 +56,9 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      requiresAuth: false,
+    },
   },
 ];
 
@@ -60,14 +68,11 @@ const router = createRouter({
 });
 
 // global route auth guard
-router.beforeEach((to, from, next) => {
-  console.log("router beforeEach: ", isAuthenticated());
-  if (!publicRoutes.includes(to.path) && !isAuthenticated()) {
-    // force user to /login, change this if needed
-    next("/login");
-  } else {
-    // user is authenticated or route is public
-    next();
+router.beforeEach(async (to) => {
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    return "/login";
   }
 });
 

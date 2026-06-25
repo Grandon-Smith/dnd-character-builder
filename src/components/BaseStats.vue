@@ -1,48 +1,42 @@
 <script setup>
-	import { computed } from "vue";
-	import { useStore } from "../store";
-	import {
-		calcProficiencyBonus,
-		calcAbilityModifier,
-	} from "../utils";
+import { computed } from "vue";
+import { useStore } from "../store/appStore";
+import { calcProficiencyBonus, calcAbilityModifier } from "../utils";
 
-	const props = defineProps({
-		charData: Object,
-	});
+const props = defineProps({
+  charData: Object,
+});
 
-	const store = useStore();
+const store = useStore();
 
-	const calcPassivePerception = computed(() => {
-		let perceptionBonus =
-			10 +
-			calcAbilityModifier(props.charData.abilityScores["wisdom"]);
+const calcPassivePerception = computed(() => {
+  let perceptionBonus =
+    10 + calcAbilityModifier(props.charData.abilityScores["wisdom"]);
 
-		if (props.charData.skillProfs?.includes("perception")) {
-			//if proficient in perception skill, add that to bonus
-			perceptionBonus += calcProficiencyBonus(props.charData.level);
-		}
+  if (props.charData.skillProfs?.includes("perception")) {
+    //if proficient in perception skill, add that to bonus
+    perceptionBonus += calcProficiencyBonus(props.charData.level);
+  }
 
-		return perceptionBonus;
-	});
+  return perceptionBonus;
+});
 </script>
 
 <template>
-	<section>
-		<h2>Base Stats</h2>
-		<div>
-			<div>
-				Initiative: +{{
-					calcAbilityModifier(charData.abilityScores["dexterity"])
-				}}
-			</div>
-			<div>Speed: {{ charData.speed }}</div>
-			<div>
-				Proficiency: +{{ calcProficiencyBonus(charData.level) }}
-			</div>
-			<div>Passive Perception: {{ calcPassivePerception }}</div>
-			<div>Armor Class: {{ charData.armorClass }}</div>
-		</div>
-	</section>
+  <section>
+    <h2>Base Stats</h2>
+    <div>
+      <div>
+        Initiative: +{{
+          calcAbilityModifier(charData.abilityScores["dexterity"])
+        }}
+      </div>
+      <div>Speed: {{ charData.speed }}</div>
+      <div>Proficiency: +{{ calcProficiencyBonus(charData.level) }}</div>
+      <div>Passive Perception: {{ calcPassivePerception }}</div>
+      <div>Armor Class: {{ charData.armorClass }}</div>
+    </div>
+  </section>
 </template>
 
 <style scoped lang="scss"></style>

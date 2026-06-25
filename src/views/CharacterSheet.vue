@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeMount, ref, computed } from "vue";
-import { useStore } from "../store";
+import { useStore } from "../store/appStore.js";
 import { useRoute } from "vue-router";
 import { characterServices } from "../services/characters";
 import NavHeader from "../components/NavHeader.vue";

@@ -1,4 +1,4 @@
-import { useStore } from "../store.js";
+import { useStore } from "../store/appStore.js";
 import router from "../router/router.js";
 
 const API_PATH =

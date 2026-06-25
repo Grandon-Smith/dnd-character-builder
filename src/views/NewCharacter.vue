@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
-import { useStore } from "../store";
+import { useStore } from "../store/appStore.js";
 import NavHeader from "../components/NavHeader.vue";
 import { useRouter } from "vue-router";
 import { characterServices } from "../services/characters";
@@ -422,10 +422,10 @@ const removeClass = (index) => {
 };
 
 const selectedClassNames = computed(() =>
-  character.value.classes.map((c) => c.name)
+  character.value.classes.map((c) => c.name),
 );
 const selectedBackground = computed(
-  () => character.value.background?.toLowerCase() || ""
+  () => character.value.background?.toLowerCase() || "",
 );
 
 const backgroundAutoSkills = computed(() => {
@@ -469,7 +469,7 @@ const availableSkills = computed(() => {
 const maxSkillChoices = computed(() => {
   const classChoices = selectedClassNames.value.reduce(
     (sum, cls) => sum + (classData[cls]?.skillChoices || 0),
-    0
+    0,
   );
 
   const raceChoices = raceSkillChoices.value;
@@ -500,13 +500,13 @@ const autoSkills = computed(() => {
 const selectedSkillCount = computed(() => {
   // Only count MANUAL selections
   return character.value.skillProficiencies.filter(
-    (skill) => !autoSkills.value.includes(skill)
+    (skill) => !autoSkills.value.includes(skill),
   ).length;
 });
 
 // Whether selecting more is allowed or not
 const disableUnselected = computed(
-  () => selectedSkillCount.value >= maxSkillChoices.value
+  () => selectedSkillCount.value >= maxSkillChoices.value,
 );
 
 async function submitCharacter() {
@@ -515,7 +515,7 @@ async function submitCharacter() {
     // router.push("/choose-character");
     character.value.level = character.value.classes.reduce(
       (sum, c) => sum + c.level,
-      0
+      0,
     );
 
     const options = {
@@ -534,7 +534,7 @@ async function submitCharacter() {
 watch(availableSkills, (newList) => {
   character.value.skillProficiencies =
     character.value.skillProficiencies.filter((skill) =>
-      newList.includes(skill)
+      newList.includes(skill),
     );
 });
 
@@ -545,12 +545,12 @@ watch(
 
     // Remove any skill that is now auto
     const cleaned = current.filter(
-      (skill) => !autoSkills.value.includes(skill)
+      (skill) => !autoSkills.value.includes(skill),
     );
 
     character.value.skillProficiencies = [...autoSkills.value, ...cleaned];
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 

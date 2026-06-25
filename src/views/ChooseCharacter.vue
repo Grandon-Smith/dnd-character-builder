@@ -2,14 +2,14 @@
 import ChooseCharacterCard from "../components/ChooseCharacterCard.vue";
 import NavHeader from "../components/NavHeader.vue";
 import { characterServices } from "../services/characters";
-import { useStore } from "../store";
+import { useStore } from "../store/appStore.js";
 import { onBeforeMount } from "vue";
 
 const store = useStore();
 
 onBeforeMount(() => {
   console.log("choose char mount", store);
-  if (!store.userData.characters.length) {
+  if (!store.characters.length) {
     const options = {
       method: "GET",
       credentials: "include",
@@ -23,25 +23,23 @@ onBeforeMount(() => {
 <template>
   <div class="choose-character-container">
     <NavHeader :headerText="'Choose Character'" />
-    <button @click="store.logout()">LOGOUT</button>
-    <p><button @click="store.fetchProfile()">GET PROFILE</button></p>
     <p>
       <router-link to="/login">go login</router-link>
     </p>
     <router-link to="/">go home</router-link>
     <section
-      v-if="store.userData.characters.length"
+      v-if="store.characters.length"
       role="region"
       class="characters-container"
     >
       <ChooseCharacterCard
-        v-for="(character, i) in store.userData.characters"
+        v-for="(character, i) in store.characters"
         :characterObj="character"
         :cardIndex="i"
         :key="i"
       />
     </section>
-    <p v-if="!store.userData.characters.length" class="no-character-warn">
+    <p v-if="!store.characters.length" class="no-character-warn">
       Looks like you don't have a character yet. Lets change that!
     </p>
     <router-link to="/add-character"
